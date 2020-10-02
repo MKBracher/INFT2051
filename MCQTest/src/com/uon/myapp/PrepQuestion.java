@@ -30,7 +30,7 @@ public class PrepQuestion {
     // The quantity of numbers will be determined by iGetQuant
     public int[] collectRandNums(){
         for (i = 0; i < iRandNum.length; i++){
-            iRandNum[i] = 10;
+            iRandNum[i] = 100;
             // Each number will have a number between 1 and 10
             // e.g. 1 is inclusive, 10
             iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
@@ -50,11 +50,23 @@ public class PrepQuestion {
         else if(iSetOp == 2) sSelOperation = sOperation[2];
         else sSelOperation = sOperation[3];
 
+        //if dividing, make sure the the 2nd number is divisible by the first
+        if (iSetOp == 3) {
+            if (iNumValue[1] > iNumValue[0]) {
+                int iSwapper = iNumValue[1];
+                iNumValue[1] = iNumValue[0];
+                iNumValue[0] = iSwapper;
+            }
+        }
+
+
         // Compiling the all of the numbers (separated by a specified operation)
         // together in a single string
         for (i = 0; i < iNumValue.length; i++){
             sQuestion += iNumValue[i] + sSelOperation;
         }
+
+
 
         // Removing the unwanted operation symbol at the end of the string
         sQuestion = sQuestion.substring(sOperation.length, sQuestion.length() - sSelOperation.length());

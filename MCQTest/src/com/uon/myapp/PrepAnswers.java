@@ -51,6 +51,13 @@ public class PrepAnswers {
         }
         // Division
         else{
+            //Making sure the 2nd number is divisible by the first
+            if (iNumValue[1] > iNumValue[0]){
+                int iSwapper = iNumValue[1];
+                iNumValue[1] = iNumValue[0];
+                iNumValue[0] = iSwapper;
+            }
+
             if(iSetQuant == 2)
                 iRightAns = iNumValue[0] / iNumValue[1];
             else if(iSetQuant == 3)

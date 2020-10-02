@@ -72,7 +72,7 @@ public class MyApplication {
     int iMinRange;
 
     // The number index for each math operation is randomised
-    // But one of these options can manually selected
+    // But one of these options can be manually selected
     // 0 = Addition; 1 = Subtraction; 2 = Multiplication, 3 = Division
     int iOperation = randNumGen.nextInt(4);
 
