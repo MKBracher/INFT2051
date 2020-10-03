@@ -24,6 +24,6 @@ public class CheckAnswer {
 
         // Going to a new question regardless if the current question was correct or not
         MyApplication MyApp = new MyApplication();
-        MyApp.startUp();
+        MyApp.playGame();
     } // end checkAns
 }

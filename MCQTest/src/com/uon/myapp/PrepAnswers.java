@@ -59,7 +59,7 @@ public class PrepAnswers {
             }
 
             if(iSetQuant == 2)
-                iRightAns = iNumValue[0] / iNumValue[1];
+                iRightAns = iNumValue[0] /iNumValue[1];
             else if(iSetQuant == 3)
                 iRightAns = iNumValue[0] / iNumValue[1] / iNumValue[2];
             else if(iSetQuant == 4)
