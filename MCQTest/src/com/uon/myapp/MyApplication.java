@@ -74,11 +74,27 @@ public class MyApplication {
     // The number index for each math operation is randomised
     // But one of these options can be manually selected
     // 0 = Addition; 1 = Subtraction; 2 = Multiplication, 3 = Division
-    int iOperation = randNumGen.nextInt(4);
+    int iOperation =   randNumGen.nextInt(4);
 
     public void startUp() {
+        Form frmStart = new Form("Math Quiz Prototype", BoxLayout.y());
+        Button btnPlay = new Button("Play Game");
+        frmStart.add(btnPlay);
+
+        //When clicked start the game
+        btnPlay.addActionListener((e) -> {
+
+            playGame();
+        });
+
+        frmStart.show();
+
+
+    }
+
+    public void playGame(){
         // Setting up the form to display the screen along with its required elements
-        Form frmAddition = new Form("Math Quiz Prototype", BoxLayout.y());
+        Form frmGame = new Form("Math Quiz", BoxLayout.y());
 
         // To prepare the question with how many numbers will be used
         PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation);
@@ -86,7 +102,7 @@ public class MyApplication {
         String sDispQuestion = prepQ.displayQuestion(iRandNumbers);
 
         // Displaying the question
-        frmAddition.add(new Label(sDispQuestion));
+        frmGame.add(new Label(sDispQuestion));
 
         // Calculating the equation, creating the incorrect answers from the right answer,
         // and shuffling the answers to make sure that the right answer is in a different place
@@ -101,10 +117,10 @@ public class MyApplication {
         Button btnOptB = new Button(sOpt[1]);
         Button btnOptC = new Button(sOpt[2]);
         Button btnOptD = new Button(sOpt[3]);
-        frmAddition.add(btnOptA);
-        frmAddition.add(btnOptB);
-        frmAddition.add(btnOptC);
-        frmAddition.add(btnOptD);
+        frmGame.add(btnOptA);
+        frmGame.add(btnOptB);
+        frmGame.add(btnOptC);
+        frmGame.add(btnOptD);
 
         // These lambda action listener event handlers
         // will be used to check if the answer selected
@@ -134,7 +150,7 @@ public class MyApplication {
             chkA.checkAns(sOptAns);
         });
 
-        frmAddition.show();
+        frmGame.show();
     }
 
 }

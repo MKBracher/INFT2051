@@ -29,12 +29,26 @@ public class PrepQuestion {
     // This method will collect the random numbers
     // The quantity of numbers will be determined by iGetQuant
     public int[] collectRandNums(){
-        for (i = 0; i < iRandNum.length; i++){
-            iRandNum[i] = 100;
-            // Each number will have a number between 1 and 10
-            // e.g. 1 is inclusive, 10
-            iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
+
+        //
+        if (iSetOp == 2 || iSetOp == 3){
+            for (i = 0; i < iRandNum.length; i++){
+                iRandNum[i] = 12;
+                // Each number will have a number between 1 and 12
+                // e.g. 1 is inclusive, 12
+                iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
+            }
         }
+
+        else {
+            for (i = 0; i < iRandNum.length; i++){
+                iRandNum[i] = 100;
+                // Each number will have a number between 1 and 100
+                // e.g. 1 is inclusive, 100
+                iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
+            }
+        }
+
         return iNumValue;
     } // end collectRandNums
 
@@ -59,8 +73,12 @@ public class PrepQuestion {
             }
         }
 
+        if (iSetOp == 3){
+            iNumValue[0] = iNumValue[0] * iNumValue[1];
+        }
 
-        // Compiling the all of the numbers (separated by a specified operation)
+
+        // Compiling all of the numbers (separated by a specified operation)
         // together in a single string
         for (i = 0; i < iNumValue.length; i++){
             sQuestion += iNumValue[i] + sSelOperation;
