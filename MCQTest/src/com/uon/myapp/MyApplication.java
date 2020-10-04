@@ -62,8 +62,7 @@ public class MyApplication {
     public void destroy() {
     }
 
-    // How many numbers will be used for the equation
-    int iQuant = 2;
+
 
     Random randNumGen = new Random();
 
@@ -71,20 +70,21 @@ public class MyApplication {
     int iMaxRange;
     int iMinRange;
 
+
     // The number index for each math operation is randomised
     // But one of these options can be manually selected
     // 0 = Addition; 1 = Subtraction; 2 = Multiplication, 3 = Division
     int iOperation =   randNumGen.nextInt(4);
 
     public void startUp() {
-        Form frmStart = new Form("Math Quiz Prototype", BoxLayout.y());
+        Form frmStart = new Form("Quiz Wiz", BoxLayout.y());
         Button btnPlay = new Button("Play Game");
         frmStart.add(btnPlay);
 
         //When clicked start the game
         btnPlay.addActionListener((e) -> {
 
-            playGame();
+            chooseDifficulty();
         });
 
         frmStart.show();
@@ -92,9 +92,61 @@ public class MyApplication {
 
     }
 
-    public void playGame(){
+    public void chooseDifficulty(){
+        Form frmDifficulty = new Form("Quiz Wiz", BoxLayout.y());
+
+        Button btnEasy = new Button("Easy");
+        Button btnMed = new Button("Medium");
+        Button btnHard = new Button("Hard");
+        frmDifficulty.add(btnEasy);
+        frmDifficulty.add(btnMed);
+        frmDifficulty.add(btnHard);
+
+        //run game on easy difficulty
+        btnEasy.addActionListener((e) -> {
+            playGame(0);
+        });
+
+        //run game on medium difficulty
+        btnMed.addActionListener((e) -> {
+
+            playGame(1);
+        });
+
+        //run game on hard difficulty
+        btnHard.addActionListener((e) -> {
+            playGame(2);
+        });
+
+        frmDifficulty.show();
+    }
+
+    public void playGame(int iDifficulty){
+        //Indicator for what difficulty is currently active
+        String formTitle;
+        // How many numbers will be used for the equation
+        int iQuant;
+
+        if (iDifficulty == 0){
+            formTitle = "Quiz Wiz - Easy";
+            iQuant = 2;
+        }
+
+        else if (iDifficulty == 1){
+            formTitle = "Quiz Wiz - Medium";
+            iQuant = 2;
+        }
+
+        else {
+            formTitle = "Quiz Wiz - Hard";
+            iQuant = 3;
+        }
+
+
+
+
         // Setting up the form to display the screen along with its required elements
-        Form frmGame = new Form("Math Quiz", BoxLayout.y());
+        Form frmGame = new Form(formTitle, BoxLayout.y());
 
         // To prepare the question with how many numbers will be used
         PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation);
@@ -125,7 +177,7 @@ public class MyApplication {
         // These lambda action listener event handlers
         // will be used to check if the answer selected
         // is either the right answer or the wrong answer
-        CheckAnswer chkA = new CheckAnswer(iRightAnswer);
+        CheckAnswer chkA = new CheckAnswer(iRightAnswer, iDifficulty);
 
         btnOptA.addActionListener((e) -> {
             // The number from the button's text will need to be collected
@@ -149,6 +201,8 @@ public class MyApplication {
             String sOptAns = btnOptD.getText();
             chkA.checkAns(sOptAns);
         });
+
+
 
         frmGame.show();
     }

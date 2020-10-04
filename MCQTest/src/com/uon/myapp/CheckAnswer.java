@@ -5,9 +5,12 @@ import com.codename1.ui.Dialog;
 public class CheckAnswer {
 
     int iFinalAnswer;
+    int iDifficulty;
 
-    public CheckAnswer(int iFinalAnswer){
+    public CheckAnswer(int iFinalAnswer, int iDifficulty){
+
         this.iFinalAnswer = iFinalAnswer;
+        this.iDifficulty = iDifficulty;
     }
 
     // This method will check the answer based on the button selected
@@ -24,6 +27,6 @@ public class CheckAnswer {
 
         // Going to a new question regardless if the current question was correct or not
         MyApplication MyApp = new MyApplication();
-        MyApp.playGame();
+        MyApp.playGame(iDifficulty);
     } // end checkAns
 }
