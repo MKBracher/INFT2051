@@ -20,8 +20,10 @@ public class CheckAnswer {
         // can be checked with the right answer
         int iChkAns = Integer.parseInt(sChkAns);
 
-        if(iFinalAnswer == iChkAns)
+        if(iFinalAnswer == iChkAns) {
             Dialog.show(null, "That is correct!", "OK", null);
+            MyApplication.setScore(1);
+        }
         else
             Dialog.show(null, "That is incorrect!", "OK", null);
 

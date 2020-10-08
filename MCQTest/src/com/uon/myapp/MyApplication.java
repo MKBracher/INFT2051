@@ -26,6 +26,7 @@ import com.codename1.ui.events.ActionListener;
  */
 public class MyApplication {
 
+
     private Form current;
     private Resources theme;
 
@@ -72,7 +73,8 @@ public class MyApplication {
     }
 
 
-
+    //To keep track of score
+    private static int iScore;
     Random randNumGen = new Random();
 
     // This integers can be used determine what range the randomised numbers could be
@@ -84,6 +86,11 @@ public class MyApplication {
     // But one of these options can be manually selected
     // 0 = Addition; 1 = Subtraction; 2 = Multiplication, 3 = Division
     int iOperation =   randNumGen.nextInt(4);
+
+
+    public static void setScore(int score){
+        iScore += score;
+    }
 
 
     public void startUp() {
@@ -170,6 +177,8 @@ public class MyApplication {
 
         // Displaying the question
         frmGame.add(new Label(sDispQuestion));
+        //Displaying Score
+        frmGame.add(new Label("Score: " + (Integer.toString(iScore))));
 
         // Calculating the equation, creating the incorrect answers from the right answer,
         // and shuffling the answers to make sure that the right answer is in a different place
