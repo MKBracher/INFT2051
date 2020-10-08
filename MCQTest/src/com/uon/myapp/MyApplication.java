@@ -159,7 +159,7 @@ public class MyApplication {
 
         else {
             formTitle = "Quiz Wiz - Hard";
-            iQuant = 3;
+            iQuant = 2;
         }
 
 
@@ -171,7 +171,7 @@ public class MyApplication {
 
 
         // To prepare the question with how many numbers will be used
-        PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation);
+        PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation, iDifficulty);
         int[] iRandNumbers = prepQ.collectRandNums();
         String sDispQuestion = prepQ.displayQuestion(iRandNumbers);
 

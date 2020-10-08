@@ -7,7 +7,7 @@ public class PrepQuestion {
     // equation
     Random randNumGen = new Random();
 
-    int i, iSetQuant, iSetOp;
+    int i, iSetQuant, iSetOp, iDifficulty;
 
     // These arrays will be used to store the random numbers
     int[] iRandNum, iNumValue;
@@ -19,9 +19,10 @@ public class PrepQuestion {
     // Multiplication and division symbols found in the Windows character map (not online)
     String[] sOperation = {" + ", " - ", " × ", " ÷ "};
 
-    public PrepQuestion(int iGetQuant, int iGetOp){
+    public PrepQuestion(int iGetQuant, int iGetOp, int iGetDifficulty){
         iSetQuant = iGetQuant;
         iSetOp = iGetOp;
+        iDifficulty = iGetDifficulty;
         iRandNum = new int[iSetQuant];
         iNumValue = new int[iSetQuant];
     }
@@ -30,27 +31,47 @@ public class PrepQuestion {
     // The quantity of numbers will be determined by iGetQuant
     public int[] collectRandNums(){
 
-        //
-        if (iSetOp == 2 || iSetOp == 3){
-            for (i = 0; i < iRandNum.length; i++){
-                iRandNum[i] = 12;
-                // Each number will have a number between 1 and 12
-                // e.g. 1 is inclusive, 12
-                iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
-            }
+        for (i = 0; i < iRandNum.length; i++){
+
+            iRandNum[i] = checkDifficulty();
+            // Each number will have a number between 1 and 12
+            // e.g. 1 is inclusive, 12
+            iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
         }
 
-        else {
-            for (i = 0; i < iRandNum.length; i++){
-                iRandNum[i] = 100;
-                // Each number will have a number between 1 and 100
-                // e.g. 1 is inclusive, 100
-                iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
-            }
-        }
 
         return iNumValue;
     } // end collectRandNums
+
+    //Choose between difficulties
+    public int checkDifficulty() {
+        int iNumber = 0;
+
+        if (iSetOp == 2 || iSetOp == 3) {
+            switch(iDifficulty){
+                case 0: iNumber = 12;
+                    break;
+                case 1: iNumber = 15;
+                    break;
+                case 2: iNumber = 20;
+                    break;
+            }
+        }
+        else {
+            switch(iDifficulty){
+                case 0: iNumber = 100;
+                break;
+                case 1: iNumber = 250;
+                break;
+                case 2: iNumber = 500;
+                break;
+            }
+
+        }
+        return iNumber;
+    }//end checkDifficulty
+
+
 
     // This method will create the question based on the collected numbers
     public String displayQuestion(int[] iNumValue){
