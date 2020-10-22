@@ -1,4 +1,4 @@
-package com.uon.myapp;
+package com.uon.myapp.QuestionPrepAndDisplay;
 
 import java.util.Random;
 
@@ -71,8 +71,6 @@ public class PrepQuestion {
         return iNumber;
     }//end checkDifficulty
 
-
-
     // This method will create the question based on the collected numbers
     public String displayQuestion(int[] iNumValue){
         String sSelOperation;
@@ -85,8 +83,8 @@ public class PrepQuestion {
         else if(iSetOp == 2) sSelOperation = sOperation[2];
         else sSelOperation = sOperation[3];
 
-        //if dividing, make sure the the 2nd number is divisible by the first
-        if (iSetOp == 3) {
+        //if dividing or subtracting, make sure the the 2nd number is divisible by the first
+        if (iSetOp == 1 || iSetOp == 3) {
             if (iNumValue[1] > iNumValue[0]) {
                 int iSwapper = iNumValue[1];
                 iNumValue[1] = iNumValue[0];
@@ -98,14 +96,11 @@ public class PrepQuestion {
             iNumValue[0] = iNumValue[0] * iNumValue[1];
         }
 
-
         // Compiling all of the numbers (separated by a specified operation)
         // together in a single string
         for (i = 0; i < iNumValue.length; i++){
             sQuestion += iNumValue[i] + sSelOperation;
         }
-
-
 
         // Removing the unwanted operation symbol at the end of the string
         sQuestion = sQuestion.substring(sOperation.length, sQuestion.length() - sSelOperation.length());

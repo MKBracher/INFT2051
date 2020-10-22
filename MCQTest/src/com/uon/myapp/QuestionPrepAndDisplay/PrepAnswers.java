@@ -1,4 +1,7 @@
-package com.uon.myapp;
+package com.uon.myapp.QuestionPrepAndDisplay;
+
+import com.uon.myapp.MyApplication;
+import com.uon.myapp.QuestionPrepAndDisplay.ShuffleAnswers.ShuffleAnswers;
 
 import java.util.Random;
 
@@ -11,7 +14,7 @@ public class PrepAnswers {
 
     MyApplication myApp;
 
-    Random randToss = new Random();
+    Random randSel = new Random();
 
     public PrepAnswers(int iGetQuant, int iGetOperation){
         myApp = new MyApplication();
@@ -72,6 +75,8 @@ public class PrepAnswers {
     // This method will allocate the wrong/incorrect answers to the
     // last three cells of the iAnswers array
     public int[] createWrongAnswers(int iRightAns){
+
+        // Each wrong answer will vary based on the difficulty and/or mode selected
         iAnswers[0] = iRightAns;
         iAnswers[1] = iRightAns + 2;
         iAnswers[2] = iRightAns - 2;
@@ -84,54 +89,17 @@ public class PrepAnswers {
     // meaning that the right answer will be very likely be on a
     // different button
     public int[] ShuffleAnswers(int[] iAnswers){
-        int iSwap;
 
-        int[] iTosses = new int[iAnswers.length];
+        ShuffleAnswers Scrambler = new ShuffleAnswers(iAnswers);
 
-        for(i = 0; i < iTosses.length; i++){
-            iTosses[i] = randToss.nextInt(2);
-        }
+        int[] iFinalAnswers;
 
-        if(iTosses[0] == 1) {
-            iSwap = iAnswers[0];
-            iAnswers[0] = iAnswers[1];
-            iAnswers[1] = iSwap;
-        }
+        iFinalAnswers = Scrambler.Shuffler(iAnswers);
 
-        if(iTosses[1] == 1) {
-            iSwap = iAnswers[1];
-            iAnswers[1] = iAnswers[2];
-            iAnswers[2] = iSwap;
-        }
-
-        if(iTosses[2] == 1) {
-            iSwap = iAnswers[2];
-            iAnswers[2] = iAnswers[3];
-            iAnswers[3] = iSwap;
-        }
-
-        if(iTosses[3] == 1) {
-            iSwap = iAnswers[3];
-            iAnswers[3] = iAnswers[0];
-            iAnswers[0] = iSwap;
-        }
-
-        if(iTosses[0] == 1 && iTosses[2] == 1){
-            iSwap = iAnswers[0];
-            iAnswers[0] = iAnswers[2];
-            iAnswers[2] = iSwap;
-        }
-
-        if(iTosses[1] == 1 && iTosses[3] == 1){
-            iSwap = iAnswers[1];
-            iAnswers[1] = iAnswers[3];
-            iAnswers[3] = iSwap;
-        }
-
-        return iAnswers;
+        return iFinalAnswers;
     } // end ShuffleAnswers
 
-    // This method prepare the
+    // This method prepares the selection of answers that will be displayed
     public String[] dispAnsSel(int[] iAnswers){
         // First, each element in the iAnswers Array will need to be converted to a string
         String[] sOptConv = new String[iAnswers.length];

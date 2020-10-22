@@ -1,16 +1,19 @@
-package com.uon.myapp;
+package com.uon.myapp.CheckAnswer;
 
 import com.codename1.ui.Dialog;
+import com.uon.myapp.MyApplication;
 
 public class CheckAnswer {
 
     int iFinalAnswer;
     int iDifficulty;
+    int iMode;
 
-    public CheckAnswer(int iFinalAnswer, int iDifficulty){
+    public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode){
 
         this.iFinalAnswer = iFinalAnswer;
         this.iDifficulty = iDifficulty;
+        this.iMode = iMode;
     }
 
     // This method will check the answer based on the button selected
@@ -20,15 +23,18 @@ public class CheckAnswer {
         // can be checked with the right answer
         int iChkAns = Integer.parseInt(sChkAns);
 
+        // Going to a new question regardless if the current question was correct or not
+        MyApplication MyApp = new MyApplication();
+
         if(iFinalAnswer == iChkAns) {
             Dialog.show(null, "That is correct!", "OK", null);
             MyApplication.setScore(1);
         }
-        else
+        else {
             Dialog.show(null, "That is incorrect!", "OK", null);
+        }
 
-        // Going to a new question regardless if the current question was correct or not
-        MyApplication MyApp = new MyApplication();
-        MyApp.playGame(iDifficulty);
+        MyApp.playGame(iDifficulty, iMode);
+
     } // end checkAns
 }
