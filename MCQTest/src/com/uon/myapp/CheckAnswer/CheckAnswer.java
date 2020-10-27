@@ -1,6 +1,7 @@
 package com.uon.myapp.CheckAnswer;
 
 import com.codename1.ui.Dialog;
+import com.uon.myapp.Displays.GameContainer;
 import com.uon.myapp.MyApplication;
 
 public class CheckAnswer {
@@ -8,12 +9,14 @@ public class CheckAnswer {
     int iFinalAnswer;
     int iDifficulty;
     int iMode;
+    //String sTimer;
 
     public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode){
 
         this.iFinalAnswer = iFinalAnswer;
         this.iDifficulty = iDifficulty;
         this.iMode = iMode;
+        //this.sTimer = sTimer;
     }
 
     // This method will check the answer based on the button selected
@@ -28,13 +31,14 @@ public class CheckAnswer {
 
         if(iFinalAnswer == iChkAns) {
             Dialog.show(null, "That is correct!", "OK", null);
-            MyApplication.setScore(1);
+            GameContainer.setScore(1);
         }
         else {
             Dialog.show(null, "That is incorrect!", "OK", null);
         }
 
         MyApp.playGame(iDifficulty, iMode);
+        //MyApp.TimeCountdown(sTimer);
 
     } // end checkAns
 }

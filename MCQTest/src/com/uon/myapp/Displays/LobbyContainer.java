@@ -1,0 +1,77 @@
+package com.uon.myapp.Displays;
+
+import com.codename1.ui.*;
+import com.codename1.ui.layouts.Layout;
+import com.codename1.ui.spinner.Picker;
+import com.uon.myapp.MyApplication;
+
+public class LobbyContainer extends Container {
+
+    // This container will display the possible options before starting the quiz
+    // The user can play different sorts of quizzes through a variety of difficulties and modes
+
+    // Pickers for the selecting the difficulty and mode
+    private Picker pickerDifficulty;
+    private Picker pickerMode;
+
+    // Buttons to either play the game with the settings selected (difficulty, mode)
+    // or return to the main menu.
+    private Button btnPlayGame;
+    private Button btnMainMenu;
+
+    // These string arrays contain the names of the difficulties and modes
+    final private String[] sDifficulty;
+    final private String[] sMode;
+
+    public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode){
+        super(layout);
+        this.setScrollableY(false);
+
+        this.sDifficulty = sDifficulty;
+        this.sMode = sMode;
+
+        this.init();
+    }
+
+    private void init(){
+
+        // Selecting Difficulty between: easy, normal (default), and hard
+        pickerDifficulty = new Picker();
+        pickerDifficulty.setType(Display.PICKER_TYPE_STRINGS);
+        pickerDifficulty.setStrings(sDifficulty);
+        pickerDifficulty.setSelectedStringIndex(1);
+
+        // Selecting Mode between: Addition (default), subtraction, multiplication, and division
+        pickerMode = new Picker();
+        pickerMode.setType(Display.PICKER_TYPE_STRINGS);
+        pickerMode.setStrings(sMode);
+        pickerMode.setSelectedStringIndex(0);
+
+        MyApplication myApp = new MyApplication();
+
+        // Displaying the text on the buttons
+        btnPlayGame = new Button("Play Game");
+        btnMainMenu = new Button("Main Menu");
+
+        // When pressed (or clicked), the app will display the screen where the user answers the maths questions
+        btnPlayGame.addActionListener((e) -> {
+            // The game will be determined by the difficulty and mode
+            int iSelDiff = pickerDifficulty.getSelectedStringIndex();
+            int iSelMode = pickerMode.getSelectedStringIndex();
+            myApp.playGame(iSelDiff, iSelMode);
+        });
+
+        // This button will allow the user to go back to the main menu
+        btnMainMenu.addActionListener((e) -> myApp.startUp());
+
+        // Applying all elements for this container
+        this.addAll(
+                new Label("Difficulty"),
+                pickerDifficulty,
+                new Label("Mode"),
+                pickerMode,
+                btnPlayGame,
+                btnMainMenu
+        );
+    } // end init
+} // end class LobbyContainer

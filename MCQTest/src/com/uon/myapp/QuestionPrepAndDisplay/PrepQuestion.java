@@ -98,9 +98,7 @@ public class PrepQuestion {
 
         // Compiling all of the numbers (separated by a specified operation)
         // together in a single string
-        for (i = 0; i < iNumValue.length; i++){
-            sQuestion += iNumValue[i] + sSelOperation;
-        }
+        for (i = 0; i < iNumValue.length; i++) sQuestion += iNumValue[i] + sSelOperation;
 
         // Removing the unwanted operation symbol at the end of the string
         sQuestion = sQuestion.substring(sOperation.length, sQuestion.length() - sSelOperation.length());

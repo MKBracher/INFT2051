@@ -10,6 +10,7 @@ import com.codename1.io.Log;
 import java.util.Random;
 import com.codename1.ui.layouts.BoxLayout;
 import com.uon.myapp.CheckAnswer.CheckAnswer;
+import com.uon.myapp.Displays.*;
 import com.uon.myapp.QuestionPrepAndDisplay.PrepAnswers;
 import com.uon.myapp.QuestionPrepAndDisplay.PrepQuestion;
 
@@ -52,7 +53,11 @@ public class MyApplication {
             current.show();
             return;
         }
+        frmStart = new Form("", BoxLayout.y());
+
         startUp();
+
+        frmStart.show();
     }
 
     public void stop() {
@@ -65,6 +70,19 @@ public class MyApplication {
 
     public void destroy() {
     }
+
+    public String sFrmTitle = "Math Wiz Quiz";
+
+    String[] sDifficulty = {"Easy", "Normal", "Hard"};
+
+    String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division"};
+
+    String[] sDisplays = {": Main Menu", ": Lobby"};
+
+    String[] sDisplayTitle = {
+            sFrmTitle + sDisplays[0],
+            sFrmTitle + sDisplays[1]
+    };
 
     private Picker pickerDifficulty;
 
@@ -97,170 +115,190 @@ public class MyApplication {
 
     String sCurrentTime;
 
+    static Form frmStart;
+
 
     public void startUp() {
-        Form frmStart = new Form("Quiz Wiz", BoxLayout.y());
-        Button btnPlay = new Button("Play Game");
-        frmStart.add(btnPlay);
 
-        //When clicked start the game
-        btnPlay.addActionListener((e) -> {
-            Lobby();
-        });
+        frmStart.removeAll();
+        frmStart.setTitle(sDisplayTitle[0]);
+
+//        Button btnPlay = new Button("Play Game");
+//        frmStart.add(btnPlay);
+
+        MainMenuContainer mainMenuContainer = new MainMenuContainer(BoxLayout.y());
+
+        frmStart.add(mainMenuContainer);
 
         frmStart.show();
+
+        //When clicked start the game
+//        btnPlay.addActionListener((e) -> {
+//            Lobby();
+//        });
     }
 
     public void Lobby(){
-        Form frmLobby = new Form("Quiz Wiz", BoxLayout.y());
+        frmStart.removeAll();
+        frmStart.setTitle(sDisplayTitle[1]);
 
-        String[] sDifficulty = {"Easy", "Normal", "Hard"};
+        //Form frmLobby = new Form(sDisplayTitle[1], BoxLayout.y());
 
-        String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division"};
+        LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
+
+        frmStart.add(lobbyContainer);
+
+        frmStart.show();
 
         // Selecting Difficulty
-        pickerDifficulty = new Picker();
-        pickerDifficulty.setType(Display.PICKER_TYPE_STRINGS);
-        pickerDifficulty.setStrings(sDifficulty);
-        pickerDifficulty.setSelectedString("Normal");
+//        pickerDifficulty = new Picker();
+//        pickerDifficulty.setType(Display.PICKER_TYPE_STRINGS);
+//        pickerDifficulty.setStrings(sDifficulty);
+//        pickerDifficulty.setSelectedStringIndex(1);
 
-        // Selecting Mode
-        pickerMode = new Picker();
-        pickerMode.setType(Display.PICKER_TYPE_STRINGS);
-        pickerMode.setStrings(sMode);
-        pickerMode.setSelectedString("Addition");
-
-        // This button will start the game
-        Button btnPlayGame = new Button("Play Game");
-        btnPlayGame.addActionListener((e) -> {
-            int iSelDiff = pickerDifficulty.getSelectedStringIndex();
-            int iSelMode = pickerMode.getSelectedStringIndex();
-            playGame(iSelDiff, iSelMode);
-            TimeCountdown(sTimer);
-        });
-
-        // This button will reset the selections made
-        Button btnReset = new Button("Reset");
-        btnReset.addActionListener((e) -> {
-            pickerDifficulty.setSelectedStringIndex(1);
-            pickerMode.setSelectedStringIndex(0);
-        });
-
-        // This button will return to the main menu
-        Button btnMainMenu = new Button("Main Menu");
-        btnMainMenu.addActionListener((e) -> startUp());
-
-        frmLobby.addAll(
-                new Label("Difficulty"),
-                pickerDifficulty,
-                new Label("Mode"),
-                pickerMode,
-                btnPlayGame,
-                btnReset,
-                btnMainMenu
-        );
-
-        frmLobby.show();
+//        // Selecting Mode
+//        pickerMode = new Picker();
+//        pickerMode.setType(Display.PICKER_TYPE_STRINGS);
+//        pickerMode.setStrings(sMode);
+//        pickerMode.setSelectedStringIndex(0);
+//
+//        // This button will start the game
+//        Button btnPlayGame = new Button("Play Game");
+//        btnPlayGame.addActionListener((e) -> {
+//            int iSelDiff = pickerDifficulty.getSelectedStringIndex();
+//            int iSelMode = pickerMode.getSelectedStringIndex();
+//            playGame(iSelDiff, iSelMode);
+//            TimeCountdown(sTimer);
+//        });
+//
+//        // This button will return to the main menu
+//        Button btnMainMenu = new Button("Main Menu");
+//        btnMainMenu.addActionListener((e) -> startUp());
+//
+//        frmLobby.addAll(
+//                new Label("Difficulty"),
+//                pickerDifficulty,
+//                new Label("Mode"),
+//                pickerMode,
+//                btnPlayGame,
+//                btnMainMenu
+//        );
+//
+//        frmLobby.show();
     }
 
-    public void playGame(int iDifficulty, int iOperation){
+    public void playGame(int iDifficulty, int iMode){
+
+        frmStart.removeAll();
+
+        String sChosenDiff = sDifficulty[iDifficulty];
+        String sChosenMode = sMode[iMode];
+
+        frmStart.setTitle(sFrmTitle + ": " + sChosenDiff + "; " + sChosenMode);
+
+        GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode);
+
+        frmStart.add(gameContainer);
+
+        frmStart.show();
 
         //Indicator for what difficulty is currently active
-        String formTitle;
+        //String formTitle;
 
         // How many numbers will be used for the equation
-        int iQuant;
+//        int iQuant;
+//
+//        if (iDifficulty == 0){
+//            formTitle = "Quiz Wiz - Easy";
+//            iQuant = 2;
+//        }
+//
+//        else if (iDifficulty == 1){
+//            formTitle = "Quiz Wiz - Normal";
+//            iQuant = 2;
+//        }
+//
+//        else {
+//            formTitle = "Quiz Wiz - Hard";
+//            iQuant = 2;
+//        }
 
-        if (iDifficulty == 0){
-            formTitle = "Quiz Wiz - Easy";
-            iQuant = 2;
-        }
-
-        else if (iDifficulty == 1){
-            formTitle = "Quiz Wiz - Normal";
-            iQuant = 2;
-        }
-
-        else {
-            formTitle = "Quiz Wiz - Hard";
-            iQuant = 2;
-        }
-
-        // Setting up the form to display the screen along with its required elements
-        Form frmGame = new Form(formTitle, BoxLayout.y());
-
-        // To prepare the question with how many numbers will be used
-        PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation, iDifficulty);
-        int[] iRandNumbers = prepQ.collectRandNums();
-        String sDispQuestion = prepQ.displayQuestion(iRandNumbers);
+//        String sNewTimer = sTimer;
+//
+//        // Setting up the form to display the screen along with its required elements
+//        Form frmGame = new Form(formTitle, BoxLayout.y());
+//
+//        // To prepare the question with how many numbers will be used
+//        PrepQuestion prepQ = new PrepQuestion(iQuant, iOperation, iDifficulty);
+//        int[] iRandNumbers = prepQ.collectRandNums();
+//        String sDispQuestion = prepQ.displayQuestion(iRandNumbers);
+//
+//        // Displaying the question
+//        frmGame.add(new Label(sDispQuestion));
+//        //Displaying Score
+//        frmGame.add(new Label("Score: " + (iScore)));
+//
+////        lblTimeRemaining = new Label(sTimer);
+////        frmGame.add(lblTimeRemaining);
+//
+//        // Calculating the equation, creating the incorrect answers from the right answer,
+//        // and shuffling the answers to make sure that the right answer is in a different place
+//        PrepAnswers prepA = new PrepAnswers(iQuant, iOperation);
+//        int iRightAnswer = prepA.equateRightAnswer(iRandNumbers);
+//        int[] iWrongAnswers = prepA.createWrongAnswers(iRightAnswer);
+//        int[] iShuffledAns = prepA.ShuffleAnswers(iWrongAnswers);
+//
+//        // Allocating the shuffled answers into the four option buttons
+//        String[] sOpt = prepA.dispAnsSel(iShuffledAns);
+//        Button[] btnOpt = new Button[sOpt.length];
+//
+//        for (i = 0; i < btnOpt.length; i++){
+//            btnOpt[i] = new Button(sOpt[i]);
+//            frmGame.add(btnOpt[i]);
+//        }
+//
+//        // These lambda action listener event handlers
+//        // will be used to check if the answer selected
+//        // is either the right answer or the wrong answer
+//        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iDifficulty, iOperation, sNewTimer);
+//
+//        // The number from the button's text will need to be collected
+//        // to determine whether the answer selected is correct or not.
+//        // The process is the same for the next three event handlers
+//
+//        btnOpt[0].addActionListener((e) -> { // Button A
+//            String sOptAns = btnOpt[0].getText();
+//            chkAnswer.checkAns(sOptAns);
+//        });
+//
+//        btnOpt[1].addActionListener((e) -> { // Button B
+//            String sOptAns = btnOpt[1].getText();
+//            chkAnswer.checkAns(sOptAns);
+//        });
+//
+//        btnOpt[2].addActionListener((e) -> { // Button C
+//            String sOptAns = btnOpt[2].getText();
+//            chkAnswer.checkAns(sOptAns);
+//        });
+//
+//        btnOpt[3].addActionListener((e) -> { // Button D
+//            String sOptAns = btnOpt[3].getText();
+//            chkAnswer.checkAns(sOptAns);
+//        });
 
         // Displaying the question
-        frmGame.add(new Label(sDispQuestion));
-        //Displaying Score
-        frmGame.add(new Label("Score: " + (iScore)));
-
-        lblTimeRemaining = new Label(sTimer);
-        frmGame.add(lblTimeRemaining);
-
-        // Calculating the equation, creating the incorrect answers from the right answer,
-        // and shuffling the answers to make sure that the right answer is in a different place
-        PrepAnswers prepA = new PrepAnswers(iQuant, iOperation);
-        int iRightAnswer = prepA.equateRightAnswer(iRandNumbers);
-        int[] iWrongAnswers = prepA.createWrongAnswers(iRightAnswer);
-        int[] iShuffledAns = prepA.ShuffleAnswers(iWrongAnswers);
-
-        // Allocating the shuffled answers into the four option buttons
-        String[] sOpt = prepA.dispAnsSel(iShuffledAns);
-        Button btnOptA = new Button(sOpt[0]);
-        Button btnOptB = new Button(sOpt[1]);
-        Button btnOptC = new Button(sOpt[2]);
-        Button btnOptD = new Button(sOpt[3]);
-        frmGame.add(btnOptA);
-        frmGame.add(btnOptB);
-        frmGame.add(btnOptC);
-        frmGame.add(btnOptD);
-
-        // These lambda action listener event handlers
-        // will be used to check if the answer selected
-        // is either the right answer or the wrong answer
-        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iDifficulty, iOperation);
-
-        String sNewTimer = "300";
-
-        // The number from the button's text will need to be collected
-        // to determine whether the answer selected is correct or not.
-        // The process is the same for the next three event handlers
-        btnOptA.addActionListener((e) -> {
-            String sOptAns = btnOptA.getText();
-            chkAnswer.checkAns(sOptAns);
-        });
-
-        btnOptB.addActionListener((e) -> {
-            String sOptAns = btnOptB.getText();
-            chkAnswer.checkAns(sOptAns);
-        });
-
-        btnOptC.addActionListener((e) -> {
-            String sOptAns = btnOptC.getText();
-            chkAnswer.checkAns(sOptAns);
-        });
-
-        btnOptD.addActionListener((e) -> {
-            String sOptAns = btnOptD.getText();
-            chkAnswer.checkAns(sOptAns);
-        });
-
-        // Displaying the question
-        frmGame.show();
+        //frmGame.show();
     }
 
     int iRemainingTime;
+
+    int iNewRemainingTime;
 
     public void TimeCountdown(String sTimer){
         // Collect the time remaining
         iRemainingTime = Integer.parseInt(sTimer);
 
-            // Commence a background thread
+        // Commence a background thread
         new Thread(() -> {
             // The timer will countdown in n seconds
             // The following loop will countdown until it has reaches zero,
@@ -269,21 +307,26 @@ public class MyApplication {
                 sCurrentTime = "" + i;
 
                 // The timer will go down one unit of time for each second (1000 millis)
+                lblTimeRemaining.setText(sCurrentTime);
                 try {
-                    if (i == 0){
-                        Dialog.show("Time's Up!", "Game over. Your time is up! Please try again.", "OK", null);
-                        Lobby();
-                    }
-                    else{
-                        lblTimeRemaining.setText(sCurrentTime);
-                        Thread.sleep(500);
-                    }
+                    Thread.sleep(700);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+                iNewRemainingTime = Integer.parseInt(sCurrentTime);
+                //CheckTimeRemaining(iNewRemainingTime);
 
-                } catch (InterruptedException ex) { }
 
             }
         }).start();
+    }
+
+    public void CheckTimeRemaining(int iNewRemainingTime){
+        if (iNewRemainingTime == 0){
+            Dialog.show("Time's Up!", "Game over. Your time is up! Please try again.", "OK", null);
+            Lobby();
+        }
 
     }
 }
