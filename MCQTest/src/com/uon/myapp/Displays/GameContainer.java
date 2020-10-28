@@ -2,6 +2,7 @@ package com.uon.myapp.Displays;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Display;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.Layout;
 import com.uon.myapp.CheckAnswer.CheckAnswer;
@@ -23,40 +24,33 @@ public class GameContainer extends Container {
     private int iQuant;
 
     // Used for iterator loops, including for loops
-    private int i, j;
-
-    // This string displays the max time for the countdown
-    private final String sTimer = "20";
+    private int i;
 
     // To keep track of score
     private static int iScore;
 
-    // This integer array will store the randomised numbers needed for the equation
-    //private int[] iRandNumbers;
+    private Boolean bActivateTimer;
 
-    // Used to display the question
-    //private String sDispQuestion;
+    private String sMin, sSec;
 
-    // Storing the numbers for the right and wrong answers
-    //private int iRightAnswer;
-    //private int[] iWrongAnswers;
+    // This string displays the max time for the countdown
+    private String sTimer;
 
-    // Storing the answers shuffled
-    //private int[] iShuffledAns;
+    private Display dispTimer;
 
-    // String array used to store the shuffled answers as strings
-    //private String[] sOpt;
+    private Label lblTimer;
 
-    // Button[] btnOpt;
-
-    public GameContainer(Layout layout, int iSelDiff, int iSelMode){
+    public GameContainer(Layout layout, int iSelDiff, int iSelMode, String sTimer){
         super(layout);
         this.setScrollableY(false);
 
         this.iSelDiff = iSelDiff;
         this.iSelMode = iSelMode;
 
+        this.sTimer = sTimer;
+
         this.init();
+        this.Countdown();
     }
 
     private void init(){
@@ -74,6 +68,10 @@ public class GameContainer extends Container {
         // Displaying Score
         this.add(new Label("Score: " + (iScore)));
 
+        String sNewTimer = sTimer;
+        lblTimer = new Label(sNewTimer);
+        this.add(lblTimer);
+
         // Calculating the equation, creating the incorrect answers from the right answer,
         // and shuffling the answers to make sure that the right answer is in a different place
         PrepAnswers prepA = new PrepAnswers(iQuant, iSelMode);
@@ -85,6 +83,7 @@ public class GameContainer extends Container {
         String[] sOpt = prepA.dispAnsSel(iShuffledAns);
         Button[] btnOpt = new Button[sOpt.length];
 
+        // For loop to apply the buttons for each question
         for (i = 0; i < btnOpt.length; i++){
             btnOpt[i] = new Button(sOpt[i]);
             this.add(btnOpt[i]);
@@ -93,11 +92,11 @@ public class GameContainer extends Container {
         // These lambda action listener event handlers
         // will be used to check if the answer selected
         // is either the right answer or the wrong answer
-        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode);
+        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode, sCurrent);
 
         // The number from the button's text will need to be collected
         // to determine whether the answer selected is correct or not.
-        // The process is the same for the next three event handlers
+        // The process of checking the answer is the same for the next three event handlers
 
         btnOpt[0].addActionListener((e) -> { // Button A
             String sOptAns = btnOpt[0].getText();
@@ -121,7 +120,42 @@ public class GameContainer extends Container {
 
     } // end init
 
+    // This method will update the score if the user selects the correct answer
     public static void setScore(int score){
         iScore += score;
     }
+
+    private static String sCurrent;
+
+    private static String remaining;
+
+    public void Countdown(){
+        // Get the wait length specified by the user
+        int waitLength;
+
+        if(sTimer == "60"){
+            waitLength = Integer.parseInt(lblTimer.getText());
+        }
+        else {
+            waitLength = Integer.parseInt(sCurrent);
+        }
+
+        // Start on a background thread
+        new Thread(() -> {
+            // Count for n seconds
+            // This loop will countdown the timer until it reaches zero,
+            // When it has reached zero, the user can pick a new number and restart the countdown
+            for (int i = waitLength; i >= 0; i--)
+            {
+                remaining = "" + i;
+                sCurrent = remaining;
+                lblTimer.setText(remaining);
+
+                // The timer will go down one unit for one second (1000 millis)
+                try { Thread.sleep(1000); } catch (InterruptedException ex) { }
+            }
+
+        }).start();
+    }
+
 } // end class GameContainer

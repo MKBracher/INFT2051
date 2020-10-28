@@ -23,6 +23,8 @@ public class LobbyContainer extends Container {
     final private String[] sDifficulty;
     final private String[] sMode;
 
+    private String sTimer;
+
     public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode){
         super(layout);
         this.setScrollableY(false);
@@ -58,7 +60,8 @@ public class LobbyContainer extends Container {
             // The game will be determined by the difficulty and mode
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
-            myApp.playGame(iSelDiff, iSelMode);
+            sTimer = "60";
+            myApp.playGame(iSelDiff, iSelMode, sTimer);
         });
 
         // This button will allow the user to go back to the main menu

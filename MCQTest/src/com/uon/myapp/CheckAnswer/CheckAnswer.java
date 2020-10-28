@@ -9,14 +9,14 @@ public class CheckAnswer {
     int iFinalAnswer;
     int iDifficulty;
     int iMode;
-    //String sTimer;
+    String sTimer;
 
-    public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode){
+    public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode, String sTimer){
 
         this.iFinalAnswer = iFinalAnswer;
         this.iDifficulty = iDifficulty;
         this.iMode = iMode;
-        //this.sTimer = sTimer;
+        this.sTimer = sTimer;
     }
 
     // This method will check the answer based on the button selected
@@ -37,8 +37,7 @@ public class CheckAnswer {
             Dialog.show(null, "That is incorrect!", "OK", null);
         }
 
-        MyApp.playGame(iDifficulty, iMode);
-        //MyApp.TimeCountdown(sTimer);
+        MyApp.playGame(iDifficulty, iMode, sTimer);
 
     } // end checkAns
 }
