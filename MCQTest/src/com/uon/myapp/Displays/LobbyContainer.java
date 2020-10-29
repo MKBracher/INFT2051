@@ -3,6 +3,7 @@ package com.uon.myapp.Displays;
 import com.codename1.ui.*;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.spinner.Picker;
+import com.uon.myapp.Displays.Setup.SetupTimer;
 import com.uon.myapp.MyApplication;
 
 public class LobbyContainer extends Container {
@@ -50,6 +51,7 @@ public class LobbyContainer extends Container {
         pickerMode.setSelectedStringIndex(0);
 
         MyApplication myApp = new MyApplication();
+        SetupTimer setupTimer = new SetupTimer();
 
         // Displaying the text on the buttons
         btnPlayGame = new Button("Play Game");
@@ -60,7 +62,8 @@ public class LobbyContainer extends Container {
             // The game will be determined by the difficulty and mode
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
-            sTimer = "60";
+            // The timer will be set
+            sTimer = setupTimer.GetTimer();
             myApp.playGame(iSelDiff, iSelMode, sTimer);
         });
 

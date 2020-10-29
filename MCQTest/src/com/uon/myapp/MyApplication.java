@@ -6,7 +6,6 @@ import com.codename1.ui.*;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
-import java.util.Random;
 import com.codename1.ui.layouts.BoxLayout;
 import com.uon.myapp.Displays.*;
 
@@ -49,11 +48,11 @@ public class MyApplication {
             current.show();
             return;
         }
-        frmStart = new Form("", BoxLayout.y());
+        frmMainForm = new Form("", BoxLayout.y());
 
         startUp();
 
-        frmStart.show();
+        frmMainForm.show();
     }
 
     public void stop() {
@@ -69,80 +68,74 @@ public class MyApplication {
 
     public String sFrmTitle = "Math Wiz Quiz";
 
-    String[] sDifficulty = {"Easy", "Normal", "Hard"};
+    public String[] sDifficulty = {"Easy", "Normal", "Hard"};
 
-    String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division"};
+    public String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division", "Random"};
 
-    String[] sDisplays = {": Main Menu", ": Lobby"};
+    public String[] sDisplays = {": Main Menu", ": Lobby"};
 
-    String[] sDisplayTitle = {
+    public String[] sDisplayTitle = {
             sFrmTitle + sDisplays[0],
             sFrmTitle + sDisplays[1]
     };
 
-    // To keep track of score
-    private static int iScore;
-    Random randNumGen = new Random();
+    String sChosenDiff, sChosenMode;
 
-    // These integers can be used determine what range the randomised numbers could be
-    // especially when determining the difficulty of the quiz
-    int iMaxRange;
-    int iMinRange;
-
-    int i;
-
-    // The number index for each math operation is randomised
-    // But one of these options can be manually selected
-    // 0 = Addition; 1 = Subtraction; 2 = Multiplication, 3 = Division
-    // 4 = Square root; 5 = Exponentiation
-    int iOperation;
-
-
-    static Form frmStart;
-
+    static Form frmMainForm;
 
     public void startUp() {
 
-        frmStart.removeAll();
-        frmStart.setTitle(sDisplayTitle[0]);
+        frmMainForm.removeAll();
+        frmMainForm.setTitle(sDisplayTitle[0]);
 
         MainMenuContainer mainMenuContainer = new MainMenuContainer(BoxLayout.y());
 
-        frmStart.add(mainMenuContainer);
+        frmMainForm.add(mainMenuContainer);
 
-        frmStart.show();
-
+        frmMainForm.show();
     }
 
     public void Lobby() {
-        frmStart.removeAll();
-        frmStart.setTitle(sDisplayTitle[1]);
-
-        //Form frmLobby = new Form(sDisplayTitle[1], BoxLayout.y());
+        frmMainForm.removeAll();
+        frmMainForm.setTitle(sDisplayTitle[1]);
 
         LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
 
-        frmStart.add(lobbyContainer);
+        frmMainForm.add(lobbyContainer);
 
-        frmStart.show();
-
-
+        frmMainForm.show();
     }
 
     public void playGame(int iDifficulty, int iMode, String sTimer) {
 
-        frmStart.removeAll();
+        frmMainForm.removeAll();
 
-        String sChosenDiff = sDifficulty[iDifficulty];
-        String sChosenMode = sMode[iMode];
+        sChosenDiff = sDifficulty[iDifficulty];
+        sChosenMode = sMode[iMode];
 
-
-        frmStart.setTitle(sFrmTitle + ": " + sChosenDiff + "; " + sChosenMode);
+        frmMainForm.setTitle(sFrmTitle + ": " + sChosenDiff + "; " + sChosenMode);
 
         GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer);
 
-        frmStart.add(gameContainer);
+        frmMainForm.add(gameContainer);
 
-        frmStart.show();
+        frmMainForm.show();
+    }
+
+    public void Results(String sFinalScore, int iGetDiff, int iGetMode){
+
+        frmMainForm.removeAll();
+
+        String sSummaryDiff = sDifficulty[iGetDiff];
+        String sSummaryMode = sMode[iGetMode];
+
+        frmMainForm.setTitle("Game Over");
+
+        ResultsContainer resultsContainer = new ResultsContainer(BoxLayout.y(), sFinalScore, iGetDiff, iGetMode, sSummaryDiff, sSummaryMode);
+
+        frmMainForm.add(resultsContainer);
+
+        frmMainForm.show();
+
     }
 }

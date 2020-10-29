@@ -3,8 +3,6 @@ package com.uon.myapp.QuestionPrepAndDisplay;
 import com.uon.myapp.MyApplication;
 import com.uon.myapp.QuestionPrepAndDisplay.ShuffleAnswers.ShuffleAnswers;
 
-import java.util.Random;
-
 public class PrepAnswers {
 
     // Integer for the right answer
@@ -13,8 +11,6 @@ public class PrepAnswers {
     int[] iAnswers = new int[4];
 
     MyApplication myApp;
-
-    Random randSel = new Random();
 
     public PrepAnswers(int iGetQuant, int iGetOperation){
         myApp = new MyApplication();

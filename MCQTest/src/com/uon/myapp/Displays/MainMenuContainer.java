@@ -8,8 +8,6 @@ public class MainMenuContainer extends Container{
 
     // This container is basically the main menu of the app
 
-    private Button btnPlay;
-
     public MainMenuContainer(Layout layout){
         super(layout);
         this.setScrollableY(false);
@@ -20,7 +18,7 @@ public class MainMenuContainer extends Container{
     // in the main menu
     private void init(){
 
-        btnPlay = new Button("Play Game");
+        Button btnPlay = new Button("Play Game");
 
         // Declaring and instantiating the class MyApplication
         MyApplication myApp = new MyApplication();
@@ -29,7 +27,5 @@ public class MainMenuContainer extends Container{
         btnPlay.addActionListener((e) -> myApp.Lobby());
 
         this.add(btnPlay);
-    }
-
-
-}
+    } // end init
+} // end class MainMenuContainer
