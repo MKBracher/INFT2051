@@ -3,7 +3,8 @@ package com.uon.myapp.QuestionPrepAndDisplay;
 import java.util.Random;
 
 public class PrepQuestion {
-    // This is this random object that will show different numbers for each
+
+    // This random object will be used to display different numbers for each
     // equation
     Random randNumGen = new Random();
 
@@ -33,12 +34,12 @@ public class PrepQuestion {
 
         for (i = 0; i < iRandNum.length; i++){
 
+            // The difficulty will determine how big the numbers should be
             iRandNum[i] = checkDifficulty();
             // Each number will have a number between 1 and 12
             // e.g. 1 is inclusive, 12
             iNumValue[i] = 1 + randNumGen.nextInt(iRandNum[i]);
         }
-
 
         return iNumValue;
     } // end collectRandNums
@@ -73,6 +74,8 @@ public class PrepQuestion {
 
     // This method will create the question based on the collected numbers
     public String displayQuestion(int[] iNumValue){
+
+        // This string be used to store the specified operation symbol
         String sSelOperation;
 
         // Depending on the value specified by iSetOp,
@@ -83,7 +86,7 @@ public class PrepQuestion {
         else if(iSetOp == 2) sSelOperation = sOperation[2];
         else sSelOperation = sOperation[3];
 
-        //if dividing or subtracting, make sure the the 2nd number is divisible by the first
+        // If dividing or subtracting, make sure that the highest number resides in iNumValue[0]
         if (iSetOp == 1 || iSetOp == 3) {
             if (iNumValue[1] > iNumValue[0]) {
                 int iSwapper = iNumValue[1];
@@ -105,6 +108,8 @@ public class PrepQuestion {
 
         // Preparing the final question
         sFinalQuestion = "What is " + sQuestion + "?";
+
+        // Returning the question in order for the question to be displayed
         return sFinalQuestion;
     } // end displayQuestion
 }

@@ -4,6 +4,9 @@ import java.util.Random;
 
 public class ShuffleAnswers {
 
+    // This class' function is to randomise or shuffle the right and wrong answers
+
+    // Integers will store temporary data for the for loops
     int i, j, iRandSelIndex;
 
     int[] iSetRawAnswers;

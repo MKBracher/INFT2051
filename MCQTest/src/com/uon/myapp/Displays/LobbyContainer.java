@@ -24,6 +24,7 @@ public class LobbyContainer extends Container {
     final private String[] sDifficulty;
     final private String[] sMode;
 
+    // This string will be used to setup the maximum time remaining
     private String sTimer;
 
     public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode){
@@ -62,8 +63,16 @@ public class LobbyContainer extends Container {
             // The game will be determined by the difficulty and mode
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
-            // The timer will be set
+
+            // The timer will be set to its maximum value
             sTimer = setupTimer.GetTimer();
+
+            // Since the game has started, and the person has not answered a question yet,
+            // the verdict displayed will be empty
+            GameContainer.SetVerdict("");
+
+            // Once the timer, mode and difficulty have the been prepared
+            // the game start and can be played until time runs out
             myApp.playGame(iSelDiff, iSelMode, sTimer);
         });
 

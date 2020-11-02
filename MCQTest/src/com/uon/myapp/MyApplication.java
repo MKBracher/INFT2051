@@ -3,6 +3,7 @@ package com.uon.myapp;
 import static com.codename1.ui.CN.*;
 
 import com.codename1.ui.*;
+import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.codename1.io.Log;
@@ -17,8 +18,6 @@ public class MyApplication {
 
     private Form current;
     private Resources theme;
-
-    private Display dispRemainingTime;
 
     public void init(Object context) {
         // use two network threads instead of one
@@ -113,7 +112,7 @@ public class MyApplication {
         sChosenDiff = sDifficulty[iDifficulty];
         sChosenMode = sMode[iMode];
 
-        frmMainForm.setTitle(sFrmTitle + ": " + sChosenDiff + "; " + sChosenMode);
+        frmMainForm.setTitle(sFrmTitle + ": " + sChosenDiff);
 
         GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer);
 
@@ -129,6 +128,8 @@ public class MyApplication {
         String sSummaryDiff = sDifficulty[iGetDiff];
         String sSummaryMode = sMode[iGetMode];
 
+        ResetBackgroundColour();
+
         frmMainForm.setTitle("Game Over");
 
         ResultsContainer resultsContainer = new ResultsContainer(BoxLayout.y(), sFinalScore, iGetDiff, iGetMode, sSummaryDiff, sSummaryMode);
@@ -137,5 +138,63 @@ public class MyApplication {
 
         frmMainForm.show();
 
+    }
+
+    public void Verdict(Boolean bVerdict){
+        // This method will affect the appearance of the screen if a right or wrong answer is selected
+
+        //=============================================
+        // Reference C1: Externally sourced code
+        // Purpose: To change the background colour when either a right or wrong answer is selected
+        // Date: 2 November 2020
+        // Source: Codename One Developer Guide - Basics: Themes, Styles, Components and Layouts
+        // Author: unknown
+        // url: https://www.codenameone.com/manual/basics.html
+        // Adaptation required: Only included the code necessary for declaring and instantiating a Style object
+        // and only used the method setBgColor() to change the background colour
+        //=============================================
+
+        Style styleBg = frmMainForm.getAllStyles();
+
+        // Green background is for correct answers,
+        // Red background is for wrong answers
+        if(!bVerdict) styleBg.setBgColor(0xff0000);
+        else styleBg.setBgColor(0x00ff00);
+
+        //=============================================
+        // End reference C1
+        //=============================================
+    }
+
+    public void ResetBackgroundColour(){
+        // This method will be used to reset the background colour
+        // back to white, particularly when a game is finished
+
+        //=============================================
+        // Reference C2 Externally sourced code
+        // Purpose: To revert back to the default background colour.
+        // Date: 2 November 2020
+        // Source: Codename One Developer Guide - Basics: Themes, Styles, Components and Layouts
+        // Author: unknown
+        // url: https://www.codenameone.com/manual/basics.html
+        // Adaptation required: Only included the code necessary for declaring and instantiating a Style object
+        // and only used the method setBgColor() to change the background colour
+        //=============================================
+
+        // Generating a new style for the main
+        Style styleBgReset = frmMainForm.getAllStyles();
+
+        // Changing the background colour back to white (default colour)
+        styleBgReset.setBgColor(0xffffff);
+
+        //=============================================
+        // End reference C2
+        //=============================================
+    }
+
+    public void SkipQuestionBGColour(){
+        Style styleBgSkip = frmMainForm.getAllStyles();
+
+        styleBgSkip.setBgColor(0xffff00);
     }
 }
