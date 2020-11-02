@@ -1,5 +1,6 @@
 package com.uon.myapp.Displays;
 
+import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
@@ -56,9 +57,15 @@ public class GameContainer extends Container {
 
     // This label will alert the user if the device does not use accelerometer
     // and warn that the shake functionality to skip questions will not work
-    private Label lblNoAccelWarn;
+    private SpanLabel lblNoAccelWarn;
 
     private Boolean bAccelActive;
+
+    // To prevent misuse of the shaking feature, as well as to prevent the program from crashing
+    // this integer will store the max number of shakes to skip a question for each game
+    private int iMaxShakes, iCurrentShakes;
+
+    private int iXTilt;
 
     MyApplication myApp = new MyApplication();
 
@@ -101,7 +108,7 @@ public class GameContainer extends Container {
         // Displaying the verdict
         lblVerdict = new Label(sVerdict);
 
-        lblNoAccelWarn = new Label();
+        lblNoAccelWarn = new SpanLabel();
 
         // Calculating the equation, creating the incorrect answers from the right answer,
         // and shuffling the answers to make sure that the right answer is in a different place
@@ -167,6 +174,14 @@ public class GameContainer extends Container {
         // If null is returned, the accelerometer is non-existent or unsupported for this device.
         SensorsManager sensorsManager = SensorsManager.getSensorsManager(SensorsManager.TYPE_ACCELEROMETER);
 
+        // Integer used to determine how many degrees must be made to skip a question
+        // by shaking the phone on its x axis
+        iXTilt = 15;
+
+        // To prevent the game from crashing
+        iMaxShakes = 3;
+        iCurrentShakes = iMaxShakes;
+
         if(sensorsManager != null){
 
             sensorsManager.registerListener(new SensorListener() {
@@ -178,22 +193,25 @@ public class GameContainer extends Container {
                     fYAxis = fGetYAxis;
                     fZAxis = fGetZAxis;
 
-                    if(bAccelActiveCheck) {
-                        if (fXAxis <= -7 || fXAxis >= 7) {
+                    // To prevent the accelerometer being used outside of the game a Boolean must be used
+                    // to check if the program can be able to use the nested if statement
+                    if(bAccelActiveCheck && iCurrentShakes > 0) {
+                        if (fXAxis <= -iXTilt || fXAxis >= iXTilt) {
                             myApp.SkipQuestionBGColour();
                             SetVerdict("Skipped");
                             myApp.playGame(iSelDiff, iSelMode, remaining);
+                            iCurrentShakes--;
                         }
                     }
 
-                }
-            });
+                } // end onSensorChanged
+            }); // sensorsManager.register listener
 
         } else {
             // If the device has no accelerometer, or the accelerometer is unsupported
             // alert the user of what will happen
             lblNoAccelWarn.setText(
-                    "Warning: This device has no accelerometer or the accelerometer is unsupported."
+                    "This device has no accelerometer or the accelerometer is unsupported."
                     + "\r\n The game will still be playable but you will not be able to shake or tilt the device when "
                     + "you want to skip questions."
             );
@@ -239,8 +257,10 @@ public class GameContainer extends Container {
                 // If the timer reads zero, the app will redirect to the results screen
                 if (waitLength == 0){
 
-                    bAccelActive = false;
-                    initAccelerometer(bAccelActive);
+                    // To prevent the accelerometer from being used outside the game,
+                    // and to avoid the app from crashing, the initAccelerometer method
+                    // must be re-run with a false argument
+                    initAccelerometer(false);
 
                     myApp.Results(String.valueOf(iScore), iSelDiff, iSelMode);
                     // The score will be reset to zero, to prepare for the next game
