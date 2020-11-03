@@ -27,6 +27,8 @@ public class LobbyContainer extends Container {
     // This string will be used to setup the maximum time remaining
     private String sTimer;
 
+    private Boolean bRandomMode;
+
     public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode){
         super(layout);
         this.setScrollableY(false);
@@ -64,6 +66,9 @@ public class LobbyContainer extends Container {
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
 
+            if (iSelMode == sMode.length - 1) bRandomMode = true;
+            else bRandomMode = false;
+
             // The timer will be set to its maximum value
             sTimer = setupTimer.GetTimer();
 
@@ -73,7 +78,7 @@ public class LobbyContainer extends Container {
 
             // Once the timer, mode and difficulty have the been prepared
             // the game start and can be played until time runs out
-            myApp.playGame(iSelDiff, iSelMode, sTimer);
+            myApp.playGame(iSelDiff, iSelMode, sTimer, bRandomMode);
         });
 
         // This button will allow the user to go back to the main menu

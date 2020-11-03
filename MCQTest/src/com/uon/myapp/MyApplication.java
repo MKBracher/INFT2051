@@ -65,6 +65,9 @@ public class MyApplication {
     public void destroy() {
     }
 
+    // The following strings and string arrays
+    // Contain the words and information needed to navigate throughout the app
+
     public String sFrmTitle = "Math Wiz Quiz";
 
     public String[] sDifficulty = {"Easy", "Normal", "Hard"};
@@ -78,24 +81,35 @@ public class MyApplication {
             sFrmTitle + sDisplays[1]
     };
 
-    String sChosenDiff, sChosenMode;
-
+    // This app will be rendered in one form. This form will be able to access a series of containers,
+    // but the form will be able to display one container at a time.
     static Form frmMainForm;
 
     public void startUp() {
+        // This method will display the main menu container
 
+        // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
-        frmMainForm.setTitle(sDisplayTitle[0]);
+
+        // Setting the title to indicate the main menu
+        frmMainForm.setTitle(sFrmTitle);
 
         MainMenuContainer mainMenuContainer = new MainMenuContainer(BoxLayout.y());
 
         frmMainForm.add(mainMenuContainer);
 
         frmMainForm.show();
-    }
+
+    } // end startUp
 
     public void Lobby() {
+        // This method will prepare and display the lobby container.
+        // This container will allow to configure settings before playing
+
+        // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
+
+        // Setting the title to indicate the lobby
         frmMainForm.setTitle(sDisplayTitle[1]);
 
         LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
@@ -103,36 +117,51 @@ public class MyApplication {
         frmMainForm.add(lobbyContainer);
 
         frmMainForm.show();
-    }
 
-    public void playGame(int iDifficulty, int iMode, String sTimer) {
+    } // end Lobby
 
+    public void playGame(int iDifficulty, int iMode, String sTimer, Boolean bRandomModeSel) {
+        // This method will prepare and display the playGame container.
+        // Based on the difficulty and mode selected in the lobby, the game will be
+        // played through those settings
+
+        // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
 
-        sChosenDiff = sDifficulty[iDifficulty];
-        sChosenMode = sMode[iMode];
+        // Displaying the title and the difficulty selected on the form
+        frmMainForm.setTitle(sFrmTitle + ": " + sDifficulty[iDifficulty]);
 
-        frmMainForm.setTitle(sFrmTitle + ": " + sChosenDiff);
-
-        GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer);
+        GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer, bRandomModeSel);
 
         frmMainForm.add(gameContainer);
 
         frmMainForm.show();
-    }
 
-    public void Results(String sFinalScore, int iGetDiff, int iGetMode){
+    } // end playGame
 
+    String sSummaryDiff, sSummaryMode;
+
+    public void Results(String sFinalScore, int iGetDiff, int iGetMode, Boolean bRandModeSel){
+        // This method will prepare and display the Results container.
+        // When a game has finished, via time running out, the user will be given a summary
+        // of their score, and what difficulty and mode they have chosen for that game.
+        // On this screen the player can choose to play again with the existing settings,
+        // or return to the lobby change the game settings.
+
+        // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
 
-        String sSummaryDiff = sDifficulty[iGetDiff];
-        String sSummaryMode = sMode[iGetMode];
+        sSummaryDiff = sDifficulty[iGetDiff];
 
+        if(bRandModeSel) sSummaryMode = sMode[sMode.length - 1];
+        else sSummaryMode = sMode[iGetMode];
+
+        // The background colour will be reset to white
         ResetBackgroundColour();
 
         frmMainForm.setTitle("Game Over");
 
-        ResultsContainer resultsContainer = new ResultsContainer(BoxLayout.y(), sFinalScore, iGetDiff, iGetMode, sSummaryDiff, sSummaryMode);
+        ResultsContainer resultsContainer = new ResultsContainer(BoxLayout.y(), sFinalScore, iGetDiff, iGetMode, sSummaryDiff, sSummaryMode, bRandModeSel);
 
         frmMainForm.add(resultsContainer);
 
@@ -151,7 +180,7 @@ public class MyApplication {
         // Author: unknown
         // url: https://www.codenameone.com/manual/basics.html
         // Adaptation required: Only included the code necessary for declaring and instantiating a Style object
-        // and only used the method setBgColor() to change the background colour
+        //                      and only used the method setBgColor() to change the background colour
         //=============================================
 
         Style styleBg = frmMainForm.getAllStyles();
@@ -164,7 +193,8 @@ public class MyApplication {
         //=============================================
         // End reference C1
         //=============================================
-    }
+
+    } // end Verdict
 
     public void ResetBackgroundColour(){
         // This method will be used to reset the background colour
@@ -178,10 +208,10 @@ public class MyApplication {
         // Author: unknown
         // url: https://www.codenameone.com/manual/basics.html
         // Adaptation required: Only included the code necessary for declaring and instantiating a Style object
-        // and only used the method setBgColor() to change the background colour
+        //                      and only used the method setBgColor() to change the background colour
         //=============================================
 
-        // Generating a new style for the main
+        // Generating a new style for the main form
         Style styleBgReset = frmMainForm.getAllStyles();
 
         // Changing the background colour back to white (default colour)
@@ -190,11 +220,33 @@ public class MyApplication {
         //=============================================
         // End reference C2
         //=============================================
-    }
+
+    } // end ResetBackgroundColour
 
     public void SkipQuestionBGColour(){
+
+        //=============================================
+        // Reference C3 Externally sourced code
+        // Purpose: To change to a yellow background colour if a question was skipped when shaking the device (phone)
+        // Date: 3 November 2020
+        // Source: Codename One Developer Guide - Basics: Themes, Styles, Components and Layouts
+        // Author: unknown
+        // url: https://www.codenameone.com/manual/basics.html
+        // Adaptation required: Only included the code necessary for declaring and instantiating a Style object
+        //                      and only used the method setBgColor() to change the background colour
+        //=============================================
+
+        // Generating a new style for the main form
         Style styleBgSkip = frmMainForm.getAllStyles();
 
+        // Changing the background colour to yellow to highlight that a question was skipped
+        // when shaking the device via its accelerometer
         styleBgSkip.setBgColor(0xffff00);
-    }
-}
+
+        //=============================================
+        // End reference C3
+        //=============================================
+
+    } // end SkipQuestionBGColour
+
+} // end class MyApplication

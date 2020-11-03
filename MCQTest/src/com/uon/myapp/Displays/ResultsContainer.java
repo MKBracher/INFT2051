@@ -27,9 +27,14 @@ public class ResultsContainer extends Container {
 
     private Button btnRetry, btnLobby;
 
-    public ResultsContainer(Layout layout, String sFinalScore, int iSelDiffIndex, int iSelModeIndex, String sSelDiff, String sSelMode){
+    private final Boolean bRandModeSel;
+
+    public ResultsContainer(Layout layout, String sFinalScore, int iSelDiffIndex, int iSelModeIndex, String sSelDiff, String sSelMode, Boolean bRandModeSel){
         super(layout);
         this.setScrollableY(false);
+
+        this.bRandModeSel = bRandModeSel;
+
 
         this.sFinalScore = sFinalScore;
         this.iSelDiffIndex = iSelDiffIndex;
@@ -57,7 +62,7 @@ public class ResultsContainer extends Container {
 
         btnRetry.addActionListener((e) -> {
             sRefreshTimer = setupTimer.GetTimer();
-            myApp.playGame(iSelDiffIndex, iSelModeIndex, sRefreshTimer);
+            myApp.playGame(iSelDiffIndex, iSelModeIndex, sRefreshTimer, bRandModeSel);
         });
 
         btnLobby.addActionListener((e) -> myApp.Lobby());

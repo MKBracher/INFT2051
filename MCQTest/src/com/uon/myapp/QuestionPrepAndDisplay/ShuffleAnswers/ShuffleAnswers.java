@@ -5,12 +5,20 @@ import java.util.Random;
 public class ShuffleAnswers {
 
     // This class' function is to randomise or shuffle the right and wrong answers
+    // to make sure that the correct and incorrect answers are in different positions
+    // in the iSetRawAnswers array
 
-    // Integers will store temporary data for the for loops
-    int i, j, iRandSelIndex;
+    // Used for iterator loops, including for loops
+    int i, j;
 
+    // Used for randomly selecting an index number (from 0 to 3)
+    // in the iSetRawAnswers Array
+    int iRandSelIndex;
+
+    // Integer array to store the un-shuffled answers
     int[] iSetRawAnswers;
 
+    // Random object used to randomly select numbers 0-3 (0-1 for caller and callee)
     Random randSect = new Random();
 
     public ShuffleAnswers(int[] iGetRawAnswers){
@@ -33,8 +41,10 @@ public class ShuffleAnswers {
 
         // This for loop will randomly shuffle the answers
         for(i = 0; i < (iRawAnswers.length ^ iCall.length); i++){
+
             // This for loop will collect the caller and callee numbers
-            // The caller selected will need to
+            // The caller selected will need to exchange its number with the
+            // randomly selected number from the callee
             for(j = 0; j < iCall.length; j++) iCall[j] = Randomiser(0);
 
             // To prevent the caller and callee have the same values,
@@ -56,10 +66,11 @@ public class ShuffleAnswers {
 
         // Once finished, the shuffled answer array will be ready to be outputted
         return iRawAnswers;
+
     } // end Shuffler
 
-    // This method will randomly select the caller and callee to shuffle with
     private int Randomiser(int iRange){
+        // This method will randomly select the caller and callee to shuffle with
         iRandSelIndex = randSect.nextInt(iSetRawAnswers.length - iRange);
         return iRandSelIndex;
     } // end Randomiser
