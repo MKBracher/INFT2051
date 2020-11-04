@@ -1,6 +1,5 @@
 package com.uon.myapp.Displays;
 
-import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
@@ -52,32 +51,32 @@ public class GameContainer extends Container {
 
     // The long and float variables are used to determine the orientation of
     // the phone during real-time via the phone's accelerometer
-    private long lTimeStamp;
-    private float fXAxis, fYAxis, fZAxis;
+    private float fXAxis;
 
     // This label will alert the user if the device does not use accelerometer
     // and warn that the shake functionality to skip questions will not work
-    private SpanLabel lblNoAccelWarn;
-
-    // Used to check if the accelerometer algorithm, which is used to skip
-    // questions, is activated
-    private Boolean bAccelActive;
+    private Label lblSkipLimit;
 
     // To prevent misuse of the shaking feature, as well as to prevent the program from crashing
     // this integer will store the max number of shakes to skip a question for each game
-    private int iMaxShakes, iCurrentShakes;
+    private int iCurrentSkips;
 
     // This integer will be used to check the x-axis angle of the accelerometer
     // when trying to shake the device to skip a question
     private int iXTilt;
 
-    private Boolean bRandomModeSel;
+    // This boolean is used to check if the Random mode is selected.
+    // If this mode is selected, each question will be based on a randomly selected mode
+    // from the following operations (addition, subtraction, multiplication, and division)
+    private final Boolean bRandomModeSel;
 
-    private Random randMode = new Random();
+    // This Random object will be used to randomly select a mode (operation) if the random
+    // mode is selected
+    private final Random randMode = new Random();
 
     MyApplication myApp = new MyApplication();
 
-    public GameContainer(Layout layout, int iSelDiff, int iSelMode, String sTimer, Boolean bRandomModeSel){
+    public GameContainer(Layout layout, int iSelDiff, int iSelMode, String sTimer, Boolean bRandomModeSel, int iCurrentSkips){
         super(layout);
         this.setScrollableY(false);
 
@@ -89,10 +88,10 @@ public class GameContainer extends Container {
 
         this.sTimer = sTimer;
 
-        bAccelActive = true;
+        this.iCurrentSkips = iCurrentSkips;
 
         this.init();
-        this.initAccelerometer(bAccelActive);
+        this.initAccelerometer(true);
         this.Countdown();
     }
 
@@ -119,9 +118,11 @@ public class GameContainer extends Container {
         // Displaying the verdict
         lblVerdict = new Label(sVerdict);
 
+        // Displays how many skips are remaining
+        // - OR -
         // Displays the no accelerometer warning if there is no accelerometer
         // or the accelerometer is unsupported
-        lblNoAccelWarn = new SpanLabel();
+        lblSkipLimit = new Label("Skips left: " + (iCurrentSkips));
 
         // Calculating the equation, creating the incorrect answers from the right answer,
         // and shuffling the answers to make sure that the right answer is in a different place
@@ -140,7 +141,7 @@ public class GameContainer extends Container {
         // These lambda action listener event handlers
         // will be used to check if the answer selected
         // is either the right answer or the wrong answer
-        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode, remaining, bRandomModeSel);
+        CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode, remaining, bRandomModeSel, iCurrentSkips);
 
         // The number from the button's text will need to be collected
         // to determine whether the answer selected is correct or not.
@@ -171,7 +172,7 @@ public class GameContainer extends Container {
         // This for loop will add all four buttons that display the four answers
         for(i = 0; i < btnOpt.length; i++) this.add(btnOpt[i]);
 
-        this.addAll(lblVerdict, lblNoAccelWarn);
+        this.addAll(lblVerdict, lblSkipLimit);
 
     } // end init
 
@@ -188,29 +189,23 @@ public class GameContainer extends Container {
         // by shaking the phone on its x-axis
         iXTilt = 15;
 
-        // To prevent the game from crashing
-        iMaxShakes = 3;
-        iCurrentShakes = iMaxShakes;
-
         if(sensorsManager != null){
 
             sensorsManager.registerListener(new SensorListener() {
                 @Override
                 public void onSensorChanged(long lGetTimeStamp, float fGetXAxis, float fGetYAxis, float fGetZAxis) {
 
-                    lTimeStamp = lGetTimeStamp;
                     fXAxis = fGetXAxis;
-                    fYAxis = fGetYAxis;
-                    fZAxis = fGetZAxis;
 
                     // To prevent the accelerometer being used outside of the game a Boolean must be used
                     // to check if the program can be able to use the nested if statement
-                    if(bAccelActiveCheck && iCurrentShakes > 0) {
+                    if(bAccelActiveCheck && iCurrentSkips > 0) {
                         if (fXAxis <= -iXTilt || fXAxis >= iXTilt) {
                             myApp.SkipQuestionBGColour();
                             SetVerdict("Skipped");
-                            myApp.playGame(iSelDiff, iSelMode, remaining, bRandomModeSel);
-                            iCurrentShakes--;
+                            // When skip is made, the number of skips remaining will be deducted by one
+                            iCurrentSkips--;
+                            myApp.playGame(iSelDiff, iSelMode, remaining, bRandomModeSel, iCurrentSkips);
                         }
                     }
 
@@ -222,7 +217,7 @@ public class GameContainer extends Container {
         else {
             // If the device has no accelerometer, or the accelerometer is unsupported
             // alert the user of what will happen
-            lblNoAccelWarn.setText(
+            lblSkipLimit.setText(
                     "This device has an unsupported or has no accelerometer."
                     + "\r\n The game will still be playable but you will be unable to shake the device when "
                     + "skipping questions."
@@ -283,7 +278,7 @@ public class GameContainer extends Container {
                 }
 
                 // The timer will go down one unit for one second (1000 milliseconds)
-                try { Thread.sleep(1000); } catch (InterruptedException ex) { }
+                try { Thread.sleep(1000); } catch (InterruptedException exception) { }
             } // end for loop
 
         }).start(); // Starts the thread

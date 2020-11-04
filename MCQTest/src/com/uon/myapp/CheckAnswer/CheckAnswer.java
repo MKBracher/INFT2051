@@ -13,17 +13,19 @@ public class CheckAnswer {
     int iMode;
     String sTimer;
     Boolean bRandomModeSel;
+    int iRemainingSkips;
 
     // Creating a new MyApp object to run the methods: Verdict and playGame
     MyApplication MyApp = new MyApplication();
 
-    public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode, String sTimer, Boolean bRandomModeSel){
+    public CheckAnswer(int iFinalAnswer, int iDifficulty, int iMode, String sTimer, Boolean bRandomModeSel, int iRemainingSkips){
 
         this.iFinalAnswer = iFinalAnswer;
         this.iDifficulty = iDifficulty;
         this.iMode = iMode;
         this.sTimer = sTimer;
         this.bRandomModeSel = bRandomModeSel;
+        this.iRemainingSkips = iRemainingSkips;
     }
 
     // This method will check the answer based on the button selected
@@ -59,7 +61,7 @@ public class CheckAnswer {
         // Regardless of the question's verdict (correct or incorrect),
         // the program will proceed to the next question with the difficulty, mode, and time
         // remaining intact
-        MyApp.playGame(iDifficulty, iMode, sTimer, bRandomModeSel);
+        MyApp.playGame(iDifficulty, iMode, sTimer, bRandomModeSel, iRemainingSkips);
 
     } // end checkAns
 

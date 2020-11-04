@@ -120,7 +120,7 @@ public class MyApplication {
 
     } // end Lobby
 
-    public void playGame(int iDifficulty, int iMode, String sTimer, Boolean bRandomModeSel) {
+    public void playGame(int iDifficulty, int iMode, String sTimer, Boolean bRandomModeSel, int iCurrentSkips) {
         // This method will prepare and display the playGame container.
         // Based on the difficulty and mode selected in the lobby, the game will be
         // played through those settings
@@ -131,7 +131,7 @@ public class MyApplication {
         // Displaying the title and the difficulty selected on the form
         frmMainForm.setTitle(sFrmTitle + ": " + sDifficulty[iDifficulty]);
 
-        GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer, bRandomModeSel);
+        GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer, bRandomModeSel, iCurrentSkips);
 
         frmMainForm.add(gameContainer);
 

@@ -3,6 +3,7 @@ package com.uon.myapp.Displays;
 import com.codename1.ui.*;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.spinner.Picker;
+import com.uon.myapp.Displays.Setup.SetupSkipLimit;
 import com.uon.myapp.Displays.Setup.SetupTimer;
 import com.uon.myapp.MyApplication;
 
@@ -26,6 +27,8 @@ public class LobbyContainer extends Container {
 
     // This string will be used to setup the maximum time remaining
     private String sTimer;
+
+    private int iRemainingSkips;
 
     private Boolean bRandomMode;
 
@@ -55,6 +58,7 @@ public class LobbyContainer extends Container {
 
         MyApplication myApp = new MyApplication();
         SetupTimer setupTimer = new SetupTimer();
+        SetupSkipLimit setupSkipLimit = new SetupSkipLimit();
 
         // Displaying the text on the buttons
         btnPlayGame = new Button("Play Game");
@@ -66,11 +70,13 @@ public class LobbyContainer extends Container {
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
 
-            if (iSelMode == sMode.length - 1) bRandomMode = true;
+            if (iSelMode == (sMode.length - 1)) bRandomMode = true;
             else bRandomMode = false;
 
             // The timer will be set to its maximum value
             sTimer = setupTimer.GetTimer();
+
+            iRemainingSkips = setupSkipLimit.GetSkipLimit();
 
             // Since the game has started, and the person has not answered a question yet,
             // the verdict displayed will be empty
@@ -78,7 +84,7 @@ public class LobbyContainer extends Container {
 
             // Once the timer, mode and difficulty have the been prepared
             // the game start and can be played until time runs out
-            myApp.playGame(iSelDiff, iSelMode, sTimer, bRandomMode);
+            myApp.playGame(iSelDiff, iSelMode, sTimer, bRandomMode, iRemainingSkips);
         });
 
         // This button will allow the user to go back to the main menu
