@@ -28,8 +28,10 @@ public class LobbyContainer extends Container {
     // This string will be used to setup the maximum time remaining
     private String sTimer;
 
+    // Used to allocate the maximum number of skips remaining
     private int iRemainingSkips;
 
+    // Used to determine if the Random mode is selected or not
     private Boolean bRandomMode;
 
     public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode){
@@ -70,12 +72,14 @@ public class LobbyContainer extends Container {
             int iSelDiff = pickerDifficulty.getSelectedStringIndex();
             int iSelMode = pickerMode.getSelectedStringIndex();
 
+            // Checking if the Random mode is used or not
             if (iSelMode == (sMode.length - 1)) bRandomMode = true;
             else bRandomMode = false;
 
             // The timer will be set to its maximum value
             sTimer = setupTimer.GetTimer();
 
+            // This will reset the maximum number of remaining skips
             iRemainingSkips = setupSkipLimit.GetSkipLimit();
 
             // Since the game has started, and the person has not answered a question yet,
@@ -99,5 +103,7 @@ public class LobbyContainer extends Container {
                 btnPlayGame,
                 btnMainMenu
         );
+
     } // end init
+
 } // end class LobbyContainer

@@ -34,7 +34,6 @@ public class ResultsContainer extends Container {
 
         this.bRandModeSel = bRandModeSel;
 
-
         this.sFinalScore = sFinalScore;
         this.iSelDiffIndex = iSelDiffIndex;
         this.iSelModeIndex = iSelModeIndex;

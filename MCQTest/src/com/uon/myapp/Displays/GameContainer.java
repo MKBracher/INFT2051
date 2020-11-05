@@ -2,7 +2,9 @@ package com.uon.myapp.Displays;
 
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Label;
+import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.layouts.Layout;
 import com.uon.myapp.CheckAnswer.CheckAnswer;
 import com.uon.myapp.Displays.Setup.SetupTimer;
@@ -37,7 +39,7 @@ public class GameContainer extends Container {
     private static String sVerdict;
 
     // This string displays the max time for the countdown
-    final private String sTimer;
+    private String sTimer;
 
     // These labels show the timer, score, and question
     private Label lblTimer, lblScore, lblQuestion;
@@ -83,6 +85,9 @@ public class GameContainer extends Container {
         this.bRandomModeSel = bRandomModeSel;
 
         this.iSelDiff = iSelDiff;
+
+        // If random mode were chosen the modes (operations) 0 to 3 will randomised for each question
+        // until the timer runs out
         if(this.bRandomModeSel) this.iSelMode = randMode.nextInt(myApp.sMode.length - 1);
         else this.iSelMode = iSelMode;
 
@@ -143,6 +148,8 @@ public class GameContainer extends Container {
         // is either the right answer or the wrong answer
         CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode, remaining, bRandomModeSel, iCurrentSkips);
 
+        Button btnExit = new Button("Exit Game");
+
         // The number from the button's text will need to be collected
         // to determine whether the answer selected is correct or not.
         // The process of checking the answer is the same for the next three event handlers
@@ -167,12 +174,14 @@ public class GameContainer extends Container {
             chkAnswer.checkAns(sOptAns);
         });
 
+        btnExit.addActionListener(this::ExitGame);
+
         this.addAll(lblQuestion, lblScore, lblTimer);
 
         // This for loop will add all four buttons that display the four answers
         for(i = 0; i < btnOpt.length; i++) this.add(btnOpt[i]);
 
-        this.addAll(lblVerdict, lblSkipLimit);
+        this.addAll(lblVerdict, lblSkipLimit, btnExit);
 
     } // end init
 
@@ -279,10 +288,22 @@ public class GameContainer extends Container {
 
                 // The timer will go down one unit for one second (1000 milliseconds)
                 try { Thread.sleep(1000); } catch (InterruptedException exception) { }
+
             } // end for loop
 
         }).start(); // Starts the thread
 
     } // end Countdown
+
+    private void ExitGame(ActionEvent e) {
+        initAccelerometer(false);
+        if (Dialog.show("Exit Game?", "Are you sure that you want to exit?", "Yes", "No")) {
+            sTimer = "0";
+            iScore = 0;
+            myApp.Lobby();
+        } else {
+            initAccelerometer(true);
+        }
+    } // end ExitGame
 
 } // end class GameContainer

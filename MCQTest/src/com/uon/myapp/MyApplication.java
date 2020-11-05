@@ -3,6 +3,8 @@ package com.uon.myapp;
 import static com.codename1.ui.CN.*;
 
 import com.codename1.ui.*;
+import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
@@ -84,6 +86,8 @@ public class MyApplication {
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
+
+    Style styleBtn;
 
     public void startUp() {
         // This method will display the main menu container
@@ -187,8 +191,11 @@ public class MyApplication {
 
         // Green background is for correct answers,
         // Red background is for wrong answers
-        if(!bVerdict) styleBg.setBgColor(0xff0000);
-        else styleBg.setBgColor(0x00ff00);
+        if(!bVerdict) {
+            styleBg.setBgColor(0xff8383);
+        } else {
+            styleBg.setBgColor(0x00dd00);
+        }
 
         //=============================================
         // End reference C1
