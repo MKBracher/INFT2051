@@ -70,18 +70,11 @@ public class MyApplication {
     // The following strings and string arrays
     // Contain the words and information needed to navigate throughout the app
 
-    public String sFrmTitle = "Math Wiz Quiz";
+    public String sFrmTitle = "Quiz Whiz";
 
     public String[] sDifficulty = {"Easy", "Normal", "Hard"};
 
     public String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division", "Random"};
-
-    public String[] sDisplays = {": Main Menu", ": Lobby"};
-
-    public String[] sDisplayTitle = {
-            sFrmTitle + sDisplays[0],
-            sFrmTitle + sDisplays[1]
-    };
 
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
@@ -95,7 +88,7 @@ public class MyApplication {
         frmMainForm.removeAll();
 
         // Setting the title to indicate the lobby
-        frmMainForm.setTitle(sDisplayTitle[1]);
+        frmMainForm.setTitle(sFrmTitle);
 
         LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
 
