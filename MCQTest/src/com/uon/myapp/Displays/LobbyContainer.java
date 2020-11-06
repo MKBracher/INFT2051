@@ -19,7 +19,6 @@ public class LobbyContainer extends Container {
     // Buttons to either play the game with the settings selected (difficulty, mode)
     // or return to the main menu.
     private Button btnPlayGame;
-    private Button btnMainMenu;
 
     // These string arrays contain the names of the difficulties and modes
     final private String[] sDifficulty;
@@ -64,7 +63,6 @@ public class LobbyContainer extends Container {
 
         // Displaying the text on the buttons
         btnPlayGame = new Button("Play Game");
-        btnMainMenu = new Button("Main Menu");
 
         // When pressed (or clicked), the app will display the screen where the user answers the maths questions
         btnPlayGame.addActionListener((e) -> {
@@ -92,7 +90,6 @@ public class LobbyContainer extends Container {
         });
 
         // This button will allow the user to go back to the main menu
-        btnMainMenu.addActionListener((e) -> myApp.startUp());
 
         // Applying all elements for this container
         this.addAll(
@@ -100,8 +97,7 @@ public class LobbyContainer extends Container {
                 pickerDifficulty,
                 new Label("Mode"),
                 pickerMode,
-                btnPlayGame,
-                btnMainMenu
+                btnPlayGame
         );
 
     } // end init

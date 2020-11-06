@@ -51,7 +51,7 @@ public class MyApplication {
         }
         frmMainForm = new Form("", BoxLayout.y());
 
-        startUp();
+        Lobby();
 
         frmMainForm.show();
     }
@@ -86,25 +86,6 @@ public class MyApplication {
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
-
-    Style styleBtn;
-
-    public void startUp() {
-        // This method will display the main menu container
-
-        // Before displaying a new container, all visual components from the previous container must be removed
-        frmMainForm.removeAll();
-
-        // Setting the title to indicate the main menu
-        frmMainForm.setTitle(sFrmTitle);
-
-        MainMenuContainer mainMenuContainer = new MainMenuContainer(BoxLayout.y());
-
-        frmMainForm.add(mainMenuContainer);
-
-        frmMainForm.show();
-
-    } // end startUp
 
     public void Lobby() {
         // This method will prepare and display the lobby container.
