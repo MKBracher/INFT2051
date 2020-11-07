@@ -7,6 +7,8 @@ import com.codename1.ui.layouts.Layout;
 import com.uon.myapp.Displays.Setup.SetupSkipLimit;
 import com.uon.myapp.Displays.Setup.SetupTimer;
 import com.uon.myapp.MyApplication;
+import com.uon.myapp.Displays.LobbyContainer;
+
 
 public class ResultsContainer extends Container {
 
@@ -25,6 +27,8 @@ public class ResultsContainer extends Container {
     private int iResetSkipLimit;
 
     final private int iSelDiffIndex, iSelModeIndex;
+
+    private int modeDifficulty;
 
     private final Boolean bRandModeSel;
 
@@ -55,14 +59,22 @@ public class ResultsContainer extends Container {
         // Displaying the final score
         Label lblSummaryScore = new Label("Your final score is: " + sFinalScore);
 
+
         // Displaying the buttons to either retry the game with the existing settings (i.e. difficulty and mode),
         // and return back to the lobby to play a game with different settings
         Button btnRetry = new Button("Retry");
         Button btnLobby = new Button("Lobby");
 
-        MyApplication myApp = new MyApplication();
         SetupTimer setupTimer = new SetupTimer();
+        MyApplication myApp = new MyApplication();
         SetupSkipLimit setupSkipLimit = new SetupSkipLimit();
+
+
+        //setting the high score
+        int iFinalScore = Integer.parseInt(sFinalScore);
+        int modeDifficulty = myApp.findModeDifficulty(iSelDiffIndex, iSelModeIndex, bRandModeSel);
+
+        myApp.setHighScores(iFinalScore, modeDifficulty);
 
         // If the "Retry" button is pressed, the game's timer will be reset back to its maximum value
         // and the game will be replayed with the settings from the summary
@@ -84,5 +96,7 @@ public class ResultsContainer extends Container {
         );
 
     } // end init
+
+
 
 } // end class ResultsContainer

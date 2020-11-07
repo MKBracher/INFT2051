@@ -76,6 +76,9 @@ public class GameContainer extends Container {
     // mode is selected
     private final Random randMode = new Random();
 
+    private int modeDifficulty;
+
+
     MyApplication myApp = new MyApplication();
 
     public GameContainer(Layout layout, int iSelDiff, int iSelMode, String sTimer, Boolean bRandomModeSel, int iCurrentSkips){
@@ -239,10 +242,14 @@ public class GameContainer extends Container {
     // This method will update the score if the user selects the correct answer
     public static void setScore(int score){ iScore += score; }
 
+
+
     // This method will setup the verdict for the answer.
     // The verdict will show if the answer to the previous question is correct or incorrect
     // or if the previous question is skipped
     public static void SetVerdict(String sGetVerdict){ sVerdict = sGetVerdict; }
+
+
 
     public void Countdown(){
         // Get the wait length specified by the user
@@ -294,6 +301,9 @@ public class GameContainer extends Container {
         }).start(); // Starts the thread
 
     } // end Countdown
+
+
+
 
     private void ExitGame(ActionEvent e) {
         initAccelerometer(false);
