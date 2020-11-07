@@ -107,10 +107,7 @@ public class MyApplication implements Serializable {
     //URL 3: https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
     //Adaption required: Merged the ideas from the three methods into one method.
     //==================================================================
-
-
-    // comments to be filled for matt (remove this line when finished)
-    // Reference Comment(s) may be needed
+    
     public int getHighScores(int index) {
         // This method will get the final scores for each mode
 
