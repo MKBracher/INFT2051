@@ -3,11 +3,13 @@ package com.uon.myapp.QuestionPrepAndDisplay;
 import java.util.Random;
 
 public class PrepQuestion {
+    // This class will prepare the question based on the mode and difficulty selected or randomly determined
 
     // This random object will be used to display different numbers for each
     // equation
     Random randNumGen = new Random();
 
+    // Allocating the iterator (for loops)
     int i, iSetQuant, iSetOp, iDifficulty;
 
     // These arrays will be used to store the random numbers
@@ -16,9 +18,22 @@ public class PrepQuestion {
     // These strings will prepare and finalise the question showing the equation
     String sQuestion, sFinalQuestion;
 
+    //=============================================
+    // Reference C4: externally sourced code
+    // Purpose: to obtain Multiplication and division symbols found in the Windows character map (not online)
+    // Date: 7/11/2020
+    // Source: Windows Character Map
+    // Author: Unknown
+    // url: Unknown
+    // Adaptation required: Acquiring the following symbols: "×" and "÷"
+    //=============================================
+
     // String array to store the four main operations
-    // Multiplication and division symbols found in the Windows character map (not online)
     String[] sOperation = {" + ", " - ", " × ", " ÷ "};
+
+    // =============================================
+    // end Reference C4
+    // =============================================
 
     public PrepQuestion(int iGetQuant, int iGetOp, int iGetDifficulty){
         iSetQuant = iGetQuant;
@@ -44,8 +59,10 @@ public class PrepQuestion {
         return iNumValue;
     } // end collectRandNums
 
-    //Choose between difficulties
+    // comments to be filled for matt (remove this line when finished)
     public int checkDifficulty() {
+        // This method will check with the difficulty to determine the
+        // maxim
         int iNumber = 0;
 
         if (iSetOp == 2 || iSetOp == 3) {
@@ -67,10 +84,10 @@ public class PrepQuestion {
                 case 2: iNumber = 500;
                 break;
             }
-
         }
+
         return iNumber;
-    }//end checkDifficulty
+    } //end checkDifficulty
 
     // This method will create the question based on the collected numbers
     public String displayQuestion(int[] iNumValue){
@@ -95,9 +112,9 @@ public class PrepQuestion {
             }
         }
 
-        if (iSetOp == 3){
-            iNumValue[0] = iNumValue[0] * iNumValue[1];
-        }
+        // If the mode/operation division is selected, then one of the numbers
+        // for the question will need to be setup in advance via multiplication
+        if (iSetOp == 3) iNumValue[0] = iNumValue[0] * iNumValue[1];
 
         // Compiling all of the numbers (separated by a specified operation)
         // together in a single string
@@ -112,4 +129,5 @@ public class PrepQuestion {
         // Returning the question in order for the question to be displayed
         return sFinalQuestion;
     } // end displayQuestion
-}
+
+} // end class PrepQuestion

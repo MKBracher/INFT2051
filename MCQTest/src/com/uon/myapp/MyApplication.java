@@ -86,59 +86,31 @@ public class MyApplication implements Serializable {
     // Used to display the difficulty and mode selected on the results screen
     String sSummaryDiff, sSummaryMode;
 
-    public String[] sDisplayTitle = {
-            sFrmTitle + sDisplays[0],
-            sFrmTitle + sDisplays[1]
-    };
-
-
-
-
-    private int[] highScores = new int[15];
+    // This integer array will store the high scores
+    private int[] highScores = new int[sDifficulty.length * sMode.length];
 
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
 
-    Style styleBtn;
+    // comments to be filled for matt (remove this line when finished)
+    // Reference Comment(s) may be needed
+    public int getHighScores(int index) {
+        // This method will get the final scores for each mode
 
-    public void startUp() {
-        // This method will display the main menu container
-
-
-        // Before displaying a new container, all visual components from the previous container must be removed
-        frmMainForm.removeAll();
-
-        // Setting the title to indicate the main menu
-        frmMainForm.setTitle(sFrmTitle);
-
-        MainMenuContainer mainMenuContainer = new MainMenuContainer(BoxLayout.y());
-
-        frmMainForm.add(mainMenuContainer);
-
-        frmMainForm.show();
-
-    } // end startUp
-
-    public int getHighScores(int index)
-    {
         try(FileInputStream in = new FileInputStream("highScores.txt");
         ObjectInputStream s = new ObjectInputStream(in)) {
             highScores = (int[]) (s.readObject());
 
             in.close();
             s.close();
-
-
-        }
-
-        catch(Exception e){
-
-        }
+        } catch(Exception e){ }
 
         return highScores[index];
-    }
+    } // end getHighScores
 
+    // comments to be filled for matt (remove this line when finished)
+    // Reference Comment(s) may be needed
     public void setHighScores(int score, int index){
 
         getHighScores(index);
@@ -159,6 +131,8 @@ public class MyApplication implements Serializable {
 
     }
 
+    // comments to be filled for matt (remove this line when finished)
+    // Reference Comment(s) may be needed
     public int findModeDifficulty(int selDiff, int selMode, boolean randomMode) {
         int difficulty = selDiff;
         int gameMode = selMode;
@@ -173,7 +147,6 @@ public class MyApplication implements Serializable {
                     case 0:
                         //easy
                         modeDifficulty = 0;
-
                         break;
                     case 1:
                         //medium
@@ -272,12 +245,10 @@ public class MyApplication implements Serializable {
         // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
 
-
         // Setting the title to indicate the lobby
         frmMainForm.setTitle(sFrmTitle);
 
         // The container will need to specify a box layout, and string arrays of the difficulties and modes
-        LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
         LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode, highScores);
 
         frmMainForm.add(lobbyContainer);
@@ -346,8 +317,6 @@ public class MyApplication implements Serializable {
         frmMainForm.show();
 
     } // end Results
-
-
 
     public void Verdict(Boolean bVerdict){
         // This method will affect the appearance of the screen if a right or wrong answer is selected

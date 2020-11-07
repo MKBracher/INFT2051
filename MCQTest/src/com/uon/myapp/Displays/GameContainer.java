@@ -75,9 +75,6 @@ public class GameContainer extends Container {
     // mode is selected
     private final Random randMode = new Random();
 
-    private int modeDifficulty;
-
-
     MyApplication myApp = new MyApplication();
 
     public GameContainer(Layout layout, int iSelDiff, int iSelMode, String sTimer, Boolean bRandomModeSel, int iCurrentSkips){
@@ -93,14 +90,16 @@ public class GameContainer extends Container {
         if(this.bRandomModeSel) this.iSelMode = randMode.nextInt(myApp.sMode.length - 1);
         else this.iSelMode = iSelMode;
 
+        // Collecting timer data
         this.sTimer = sTimer;
 
+        // Collecting Skip data
         this.iCurrentSkips = iCurrentSkips;
 
-        this.init();
-        this.initAccelerometer(true);
-        this.Countdown();
-    }
+        this.init(); // Prepares the elements for container
+        this.initAccelerometer(true); // Activating accelerometer function
+        this.Countdown(); // Starting timer
+    } // end GameContainer
 
     private void init(){
 
@@ -150,6 +149,7 @@ public class GameContainer extends Container {
         // is either the right answer or the wrong answer
         CheckAnswer chkAnswer = new CheckAnswer(iRightAnswer, iSelDiff, iSelMode, remaining, bRandomModeSel, iCurrentSkips);
 
+        // This button will be used to allow player exit mid-game
         Button btnExit = new Button("Exit Game");
 
         // The number from the button's text will need to be collected
@@ -178,11 +178,13 @@ public class GameContainer extends Container {
 
         btnExit.addActionListener(this::ExitGame);
 
+        // Adding the question, score, and timer
         this.addAll(lblQuestion, lblScore, lblTimer);
 
         // This for loop will add all four buttons that display the four answers
         for(i = 0; i < btnOpt.length; i++) this.add(btnOpt[i]);
 
+        // adding the verdict, number of skips remaining, and the exit button
         this.addAll(lblVerdict, lblSkipLimit, btnExit);
 
     } // end init
@@ -213,10 +215,12 @@ public class GameContainer extends Container {
                     // to check if the program can be able to use the nested if statement
                     if(bAccelActiveCheck && iCurrentSkips > 0) {
                         if (fXAxis <= -iXTilt || fXAxis >= iXTilt) {
+                            // Changing the background colour to yellow
                             myApp.SkipQuestionBGColour();
                             SetVerdict("Skipped");
                             // When skip is made, the number of skips remaining will be deducted by one
                             iCurrentSkips--;
+                            // Displaying a new question
                             myApp.playGame(iSelDiff, iSelMode, remaining, bRandomModeSel, iCurrentSkips);
                         }
                     }
@@ -242,16 +246,15 @@ public class GameContainer extends Container {
     // This method will update the score if the user selects the correct answer
     public static void setScore(int score){ iScore += score; }
 
-
-
     // This method will setup the verdict for the answer.
     // The verdict will show if the answer to the previous question is correct or incorrect
     // or if the previous question is skipped
     public static void SetVerdict(String sGetVerdict){ sVerdict = sGetVerdict; }
 
-
-
     public void Countdown(){
+        // This method will start the countdown from its max time
+        // until it reaches zero
+
         // Get the wait length specified by the user
         int waitLength;
 
@@ -281,6 +284,7 @@ public class GameContainer extends Container {
                 lblTimer.setText(remaining);
 
                 // If the timer reads zero, the app will redirect to the results screen
+                // When the last answer is selected
                 if (waitLength == 0){
 
                     // To prevent the accelerometer from being used outside the game,
@@ -301,9 +305,6 @@ public class GameContainer extends Container {
         }).start(); // Starts the thread
 
     } // end Countdown
-
-
-
 
     private void ExitGame(ActionEvent e) {
         // If the player wants to exit mid-game, a dialog box will confirm if the player wants to go back

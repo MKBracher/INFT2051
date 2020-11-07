@@ -8,6 +8,8 @@ public class PrepAnswers {
     // Integer for the right answer
     int i, iRightAns, iSetQuant, iSetOperation;
 
+    // This array will be used to contain the correct and incorrect
+    // answers when displayed onto the buttons
     int[] iAnswers = new int[4];
 
     MyApplication myApp;
@@ -25,44 +27,25 @@ public class PrepAnswers {
 
         // Addition
         if(iSetOperation == 0){
-            for (i = 0; i < iNumValue.length; i++){
-                iRightAns += iNumValue[i];
-            }
+            for (i = 0; i < iNumValue.length; i++) iRightAns += iNumValue[i];
         }
-        // Subtraction
-        else if(iSetOperation == 1){
-            if(iSetQuant == 2)
-                iRightAns = iNumValue[0] - iNumValue[1];
-            else if(iSetQuant == 3)
-                iRightAns = iNumValue[0] - iNumValue[1] - iNumValue[2];
-            else if(iSetQuant == 4)
-                iRightAns = iNumValue[0] - iNumValue[1] - iNumValue[2] - iNumValue[3];
-        }
-        // Multiplication
-        else if(iSetOperation == 2){
-            if(iSetQuant == 2)
-                iRightAns = iNumValue[1] * iNumValue[0];
-            else if(iSetQuant == 3)
-                iRightAns = iNumValue[2] * iNumValue[1] * iNumValue[0];
-            else if(iSetQuant == 4)
-                iRightAns = iNumValue[3] * iNumValue[2] * iNumValue[1] * iNumValue[0];
 
-        }
+        // Subtraction
+        else if(iSetOperation == 1) iRightAns = iNumValue[0] - iNumValue[1];
+
+        // Multiplication
+        else if(iSetOperation == 2) iRightAns = iNumValue[1] * iNumValue[0];
+
         // Division
         else{
-            //Making sure the 2nd number is divisible by the first
+            // Making sure the 2nd number is divisible by the first
             if (iNumValue[1] > iNumValue[0]){
                 int iSwapper = iNumValue[1];
                 iNumValue[1] = iNumValue[0];
                 iNumValue[0] = iSwapper;
             }
 
-            if(iSetQuant == 2)
-                iRightAns = iNumValue[0] /iNumValue[1];
-            else if(iSetQuant == 3)
-                iRightAns = iNumValue[0] / iNumValue[1] / iNumValue[2];
-            else if(iSetQuant == 4)
-                iRightAns = iNumValue[0] / iNumValue[1] / iNumValue[2] / iNumValue[3];
+            iRightAns = iNumValue[0] / iNumValue[1];
         }
 
         return iRightAns;
@@ -82,15 +65,19 @@ public class PrepAnswers {
     } // end createWrongAnswers
 
     // This method will shuffle the answers for each question
-    // meaning that the right answer will be very likely be on a
-    // different button
+    // meaning that the right answer not always be on the
+    // same button
     public int[] ShuffleAnswers(int[] iAnswers){
 
-        ShuffleAnswers Scrambler = new ShuffleAnswers(iAnswers);
+        // The parameter array iAnswers will be used to shuffle or
+        // randomised the answers
+        ShuffleAnswers shuffleAnswers = new ShuffleAnswers(iAnswers);
 
+        // Declaring the iFinalAnswers array
         int[] iFinalAnswers;
 
-        iFinalAnswers = Scrambler.Shuffler(iAnswers);
+        // Placing the shuffled answers into the iFinalAnswers array
+        iFinalAnswers = shuffleAnswers.Shuffler(iAnswers);
 
         return iFinalAnswers;
     } // end ShuffleAnswers
@@ -107,4 +94,4 @@ public class PrepAnswers {
         return sOptConv;
     } // end dispAnsSel
 
-}
+} // class PrepAnswers

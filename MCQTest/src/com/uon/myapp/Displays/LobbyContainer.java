@@ -38,23 +38,15 @@ public class LobbyContainer extends Container {
     public int test = 0;
 
     // The game will be determined by the difficulty and mode
+    // The default values set
     int iSelDiff = 1;
     int iSelMode = 4;
 
-    //This is used to hold a number that represents a combination of game mode and difficulty
-    //In order Addition, Subtraction, Multiplication
-    //Division, Random. Easy, Medium, Hard - Eg. Easy Subtraction is Index 1,
-    //Hard subtraction is Index 12
+    // This is used to hold a number that represents a combination of game mode and difficulty
+    // In order Addition, Subtraction, Multiplication
+    // Division, Random. Easy, Medium, Hard - Eg. Easy Subtraction is Index 1,
+    // Hard subtraction is Index 12
     public int iModeDifficulty = 0;
-
-    public int[] highScores = new int[15];
-
-
-
-    //Holds the high scores for the modeDifficulty .
-    //private int[] highScores = new int[15];
-
-
 
     public LobbyContainer(Layout layout, String[] sDifficulty, String[] sMode, int[] highScores){
         super(layout);
@@ -68,7 +60,6 @@ public class LobbyContainer extends Container {
 
     private void init(){
 
-
         // Selecting Difficulty between: easy, normal (default), and hard
         pickerDifficulty = new Picker();
         pickerDifficulty.setType(Display.PICKER_TYPE_STRINGS);
@@ -81,18 +72,16 @@ public class LobbyContainer extends Container {
         pickerMode.setStrings(sMode);
         pickerMode.setSelectedStringIndex(4);
 
-
         MyApplication myApp = new MyApplication();
         SetupTimer setupTimer = new SetupTimer();
         SetupSkipLimit setupSkipLimit = new SetupSkipLimit();
 
-
-        //setting up high score label
+        // Setting up high score label
         Label lblHighScore = new Label();
         lblHighScore.setText("High Score: " + myApp.getHighScores(9));
 
-
-
+        // comments to be filled for matt (remove this line when finished)
+        // Reference Comment(s) may be needed
         pickerMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -109,6 +98,8 @@ public class LobbyContainer extends Container {
             }
         });
 
+        // comments to be filled for matt (remove this line when finished)
+        // Reference Comment(s) may be needed
         pickerDifficulty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -119,15 +110,11 @@ public class LobbyContainer extends Container {
             }
         });
 
-
-
-
         // Displaying the text on the buttons
         btnPlayGame = new Button("Play Game");
 
         // When pressed (or clicked), the app will display the screen where the user answers the maths questions
         btnPlayGame.addActionListener((e) -> {
-
 
             // Checking if the Random mode is used or not
             if (iSelMode == (sMode.length - 1)) bRandomMode = true;
@@ -143,15 +130,10 @@ public class LobbyContainer extends Container {
             // the verdict displayed will be empty
             GameContainer.SetVerdict("");
 
-
             // Once the timer, mode and difficulty have the been prepared
             // the game start and can be played until time runs out
             myApp.playGame(iSelDiff, iSelMode, sTimer, bRandomMode, iRemainingSkips);
         }); // end btnPlayGame
-
-        // This button will allow the user to go back to the main menu
-        btnMainMenu.addActionListener((e) -> myApp.startUp());
-
 
         // Applying all elements for this container
         this.addAll(
@@ -160,117 +142,9 @@ public class LobbyContainer extends Container {
                 new Label("Mode"),
                 pickerMode,
                 lblHighScore,
-
-
-                btnPlayGame,
-                btnMainMenu
                 btnPlayGame
         );
 
     } // end init
-
-//    public int findModeDifficulty(int selDiff, int selMode, boolean randomMode) {
-//        int difficulty = selDiff;
-//        int gameMode = selMode;
-//        int modeDifficulty = 0;
-//        if (randomMode) {
-//            gameMode = 4;
-//        }
-//        switch (gameMode) {
-//            case 0:
-//                //Addition
-//                switch (difficulty) {
-//                    case 0:
-//                        //easy
-//                        modeDifficulty = 0;
-//
-//                        break;
-//                    case 1:
-//                        //medium
-//                        modeDifficulty = 5;
-//                        break;
-//                    case 2:
-//                        //hard
-//                        modeDifficulty = 10;
-//                        break;
-//                }
-//                break;
-//            case 1:
-//                //Subtraction
-//                switch (difficulty) {
-//                    case 0:
-//                        //easy
-//                        modeDifficulty = 1;
-//
-//                        break;
-//                    case 1:
-//                        //medium
-//                        modeDifficulty = 6;
-//                        break;
-//                    case 2:
-//                        //hard
-//                        modeDifficulty = 11;
-//                        break;
-//                }
-//                break;
-//
-//            case 2:
-//                //Multiplication
-//                switch (difficulty) {
-//                    case 0:
-//                        //easy
-//                        modeDifficulty = 2;
-//
-//                        break;
-//                    case 1:
-//                        //medium
-//                        modeDifficulty = 7;
-//                        break;
-//                    case 2:
-//                        //hard
-//                        modeDifficulty = 12;
-//                        break;
-//                }
-//                break;
-//            case 3:
-//                //Division
-//                switch (difficulty) {
-//                    case 0:
-//                        //easy
-//                        modeDifficulty = 3;
-//
-//                        break;
-//                    case 1:
-//                        //medium
-//                        modeDifficulty = 8;
-//                        break;
-//                    case 2:
-//                        //hard
-//                        modeDifficulty = 13;
-//                        break;
-//                }
-//                break;
-//            case 4:
-//                //Random
-//                switch (difficulty) {
-//                    case 0:
-//                        //easy
-//                        modeDifficulty = 4;
-//
-//                        break;
-//                    case 1:
-//                        //medium
-//                        modeDifficulty = 9;
-//                        break;
-//                    case 2:
-//                        //hard
-//                        modeDifficulty = 14;
-//                        break;
-//                }
-//                break;
-//
-//        }
-//        return modeDifficulty;
-//    }
 
 } // end class LobbyContainer
