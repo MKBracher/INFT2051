@@ -87,9 +87,7 @@ public class LobbyContainer extends Container {
             // Once the timer, mode and difficulty have the been prepared
             // the game start and can be played until time runs out
             myApp.playGame(iSelDiff, iSelMode, sTimer, bRandomMode, iRemainingSkips);
-        });
-
-        // This button will allow the user to go back to the main menu
+        }); // end btnPlayGame
 
         // Applying all elements for this container
         this.addAll(

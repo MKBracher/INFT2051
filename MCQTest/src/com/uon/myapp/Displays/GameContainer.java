@@ -12,7 +12,6 @@ import com.uon.myapp.MyApplication;
 import com.uon.myapp.QuestionPrepAndDisplay.PrepAnswers;
 import com.uon.myapp.QuestionPrepAndDisplay.PrepQuestion;
 import com.codename1.sensors.*;
-
 import java.util.Random;
 
 public class GameContainer extends Container {
@@ -191,19 +190,20 @@ public class GameContainer extends Container {
         // If the phone (or other suitable device) is shaken, the player can skip the question used
 
         // Acquire the sensor manager to use the device's accelerometer.
-        // If null is returned, the accelerometer is non-existent or unsupported for this device.
         SensorsManager sensorsManager = SensorsManager.getSensorsManager(SensorsManager.TYPE_ACCELEROMETER);
 
         // Integer used to determine how many degrees must be made to skip a question
         // by shaking the phone on its x-axis
         iXTilt = 15;
 
+        // If null is returned, the accelerometer is non-existent or unsupported for this device.
         if(sensorsManager != null){
 
             sensorsManager.registerListener(new SensorListener() {
                 @Override
                 public void onSensorChanged(long lGetTimeStamp, float fGetXAxis, float fGetYAxis, float fGetZAxis) {
 
+                    // The shaking function depends on the readings of the accelerometer's x-axis
                     fXAxis = fGetXAxis;
 
                     // To prevent the accelerometer being used outside of the game a Boolean must be used
@@ -296,12 +296,18 @@ public class GameContainer extends Container {
     } // end Countdown
 
     private void ExitGame(ActionEvent e) {
+        // If the player wants to exit mid-game, a dialog box will confirm if the player wants to go back
+        // to the lobby
+
+        // When the dialog box is open, the shake function via the accelerometer will be temporarily deactivated
         initAccelerometer(false);
         if (Dialog.show("Exit Game?", "Are you sure that you want to exit?", "Yes", "No")) {
+            // If yes, then the timer and score will be set/reset to zero, and the app will go back the the lobby
             sTimer = "0";
             iScore = 0;
             myApp.Lobby();
         } else {
+            // The accelerometer will be re-activated when no is selected, thus resuming the game.
             initAccelerometer(true);
         }
     } // end ExitGame

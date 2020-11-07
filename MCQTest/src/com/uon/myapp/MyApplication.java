@@ -3,8 +3,6 @@ package com.uon.myapp;
 import static com.codename1.ui.CN.*;
 
 import com.codename1.ui.*;
-import com.codename1.ui.layouts.BorderLayout;
-import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
@@ -49,8 +47,15 @@ public class MyApplication {
             current.show();
             return;
         }
+
+        // Displaying the main form of the app.
+        // The app will alternate between different containers, and display the contents of
+        // the container on frmMainForm
         frmMainForm = new Form("", BoxLayout.y());
 
+        // Displaying the app's lobby on the app's startup.
+        // The lobby will allow the user to have an opportunity to change the game's settings
+        // before starting the game
         Lobby();
 
         frmMainForm.show();
@@ -76,6 +81,9 @@ public class MyApplication {
 
     public String[] sMode = {"Addition", "Subtraction", "Multiplication", "Division", "Random"};
 
+    // Used to display the difficulty and mode selected on the results screen
+    String sSummaryDiff, sSummaryMode;
+
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
@@ -83,6 +91,8 @@ public class MyApplication {
     public void Lobby() {
         // This method will prepare and display the lobby container.
         // This container will allow to configure settings before playing
+        // This will also be the first screen that the player will see if the game
+        // is started up
 
         // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
@@ -90,6 +100,7 @@ public class MyApplication {
         // Setting the title to indicate the lobby
         frmMainForm.setTitle(sFrmTitle);
 
+        // The container will need to specify a box layout, and string arrays of the difficulties and modes
         LobbyContainer lobbyContainer = new LobbyContainer(BoxLayout.y(), sDifficulty, sMode);
 
         frmMainForm.add(lobbyContainer);
@@ -109,6 +120,10 @@ public class MyApplication {
         // Displaying the title and the difficulty selected on the form
         frmMainForm.setTitle(sFrmTitle + ": " + sDifficulty[iDifficulty]);
 
+        // Displays the contents of GameContainer to show the game's user interface.
+        // GameContainer requires the layout, difficulty ID, mode ID, remaining timer,
+        // the boolean to verify if the random mode is selected, and verifying the
+        // remaining number of skips
         GameContainer gameContainer = new GameContainer(BoxLayout.y(), iDifficulty, iMode, sTimer, bRandomModeSel, iCurrentSkips);
 
         frmMainForm.add(gameContainer);
@@ -116,8 +131,6 @@ public class MyApplication {
         frmMainForm.show();
 
     } // end playGame
-
-    String sSummaryDiff, sSummaryMode;
 
     public void Results(String sFinalScore, int iGetDiff, int iGetMode, Boolean bRandModeSel){
         // This method will prepare and display the Results container.
@@ -129,23 +142,31 @@ public class MyApplication {
         // Before displaying a new container, all visual components from the previous container must be removed
         frmMainForm.removeAll();
 
+        // Obtaining the name of the difficulty selected
         sSummaryDiff = sDifficulty[iGetDiff];
 
+        // If the random mode boolean is true, the mode on the results screen will show "Random"
         if(bRandModeSel) sSummaryMode = sMode[sMode.length - 1];
+        // Non-random modes just get their respective mode based on the
+        // index from the sMode string array
         else sSummaryMode = sMode[iGetMode];
 
         // The background colour will be reset to white
         ResetBackgroundColour();
 
+        // Indicate to the player that the game is over
         frmMainForm.setTitle("Game Over");
 
+        // To display the results, the container requires the finalised score, the indexes of the selected difficulty and mode
+        // (for non-random modes only), the string of the difficulty and mode selected, and the boolean to determine if the
+        // mode is random or not
         ResultsContainer resultsContainer = new ResultsContainer(BoxLayout.y(), sFinalScore, iGetDiff, iGetMode, sSummaryDiff, sSummaryMode, bRandModeSel);
 
         frmMainForm.add(resultsContainer);
 
         frmMainForm.show();
 
-    }
+    } // end Results
 
     public void Verdict(Boolean bVerdict){
         // This method will affect the appearance of the screen if a right or wrong answer is selected
@@ -165,11 +186,8 @@ public class MyApplication {
 
         // Green background is for correct answers,
         // Red background is for wrong answers
-        if(!bVerdict) {
-            styleBg.setBgColor(0xff8383);
-        } else {
-            styleBg.setBgColor(0x00dd00);
-        }
+        if(!bVerdict) styleBg.setBgColor(0xff8383);
+        else styleBg.setBgColor(0x00dd00);
 
         //=============================================
         // End reference C1
