@@ -80,8 +80,16 @@ public class LobbyContainer extends Container {
         Label lblHighScore = new Label();
         lblHighScore.setText("High Score: " + myApp.getHighScores(9));
 
-        // comments to be filled for matt (remove this line when finished)
-        // Reference Comment(s) may be needed
+        //=======================================================================
+        //Reference A2 : Externally sourced code
+        //Purpose : Allow the UI to be updated when a picker gets changed
+        //Date: 07 November 2020
+        //Source: Stackoverflow
+        //URL: https://stackoverflow.com/questions/50461901/how-to-add-a-selection-change-listener-to-a-picker-in-codename-one
+        //Adaption required: Inserted code into event handler
+        //==========================================================================
+
+
         pickerMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -98,8 +106,7 @@ public class LobbyContainer extends Container {
             }
         });
 
-        // comments to be filled for matt (remove this line when finished)
-        // Reference Comment(s) may be needed
+
         pickerDifficulty.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -109,6 +116,10 @@ public class LobbyContainer extends Container {
 
             }
         });
+
+        //========================================================
+        //End reference A2
+        //=======================================================
 
         // Displaying the text on the buttons
         btnPlayGame = new Button("Play Game");

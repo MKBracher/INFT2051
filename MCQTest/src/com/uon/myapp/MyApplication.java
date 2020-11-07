@@ -93,6 +93,19 @@ public class MyApplication implements Serializable {
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
 
+    //===============================================================
+    //Reference A1: Externally sourced code
+    //Purpose: Serialize the highScores array and write it to a file
+    //Purpose 2: Read the highScores array from the file
+    //Date : 07 November 2020
+    //Source: Geeks for geeks && Stack Overflow
+    //URL : https://www.geeksforgeeks.org/serialization-in-java/
+    //URL : https://stackoverflow.com/questions/1467193/java-serialization-of-multidimensional-array#:~:text=Arrays%20in%20Java%20are%20serializable,example%2C%20using%20arrays%20of%20ints.
+    //URL : https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
+    //Adaption required: Merged the ideas from the three methods into one method.
+    //==================================================================
+
+
     // comments to be filled for matt (remove this line when finished)
     // Reference Comment(s) may be needed
     public int getHighScores(int index) {
@@ -109,8 +122,6 @@ public class MyApplication implements Serializable {
         return highScores[index];
     } // end getHighScores
 
-    // comments to be filled for matt (remove this line when finished)
-    // Reference Comment(s) may be needed
     public void setHighScores(int score, int index){
 
         getHighScores(index);
@@ -131,8 +142,13 @@ public class MyApplication implements Serializable {
 
     }
 
-    // comments to be filled for matt (remove this line when finished)
-    // Reference Comment(s) may be needed
+    //===================================================
+    //End Reference A1
+    //===================================================
+
+
+    //This method is used to find a integer to represent
+    //both the difficulty and mode selections
     public int findModeDifficulty(int selDiff, int selMode, boolean randomMode) {
         int difficulty = selDiff;
         int gameMode = selMode;
