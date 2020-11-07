@@ -85,6 +85,7 @@ public class LobbyContainer extends Container {
         //Purpose : Allow the UI to be updated when a picker gets changed
         //Date: 07 November 2020
         //Source: Stackoverflow
+        //Author: Peter Husarik
         //URL: https://stackoverflow.com/questions/50461901/how-to-add-a-selection-change-listener-to-a-picker-in-codename-one
         //Adaption required: Inserted code into event handler
         //==========================================================================

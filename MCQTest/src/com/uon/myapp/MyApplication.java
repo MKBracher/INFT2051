@@ -99,9 +99,12 @@ public class MyApplication implements Serializable {
     //Purpose 2: Read the highScores array from the file
     //Date : 07 November 2020
     //Source: Geeks for geeks && Stack Overflow
-    //URL : https://www.geeksforgeeks.org/serialization-in-java/
-    //URL : https://stackoverflow.com/questions/1467193/java-serialization-of-multidimensional-array#:~:text=Arrays%20in%20Java%20are%20serializable,example%2C%20using%20arrays%20of%20ints.
-    //URL : https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
+    //Author 1:  Mehak Narang and Shubham Juneja
+    //Author 2: brabster
+    //Author 3: Willem Van Onsem
+    //URL 1: https://www.geeksforgeeks.org/serialization-in-java/
+    //URL 2: https://stackoverflow.com/questions/1467193/java-serialization-of-multidimensional-array#:~:text=Arrays%20in%20Java%20are%20serializable,example%2C%20using%20arrays%20of%20ints.
+    //URL 3: https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
     //Adaption required: Merged the ideas from the three methods into one method.
     //==================================================================
 
