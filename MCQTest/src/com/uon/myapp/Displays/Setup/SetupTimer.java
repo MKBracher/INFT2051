@@ -6,7 +6,7 @@ public class SetupTimer {
     private final String sTimer;
 
     // This constructor will be used to allocate the timer that will be used for the quiz/game
-    public SetupTimer(){ sTimer = "60"; }
+    public SetupTimer(){ sTimer = "5"; }
 
     public String GetTimer(){ return sTimer; }
 } // end class SetupTimer

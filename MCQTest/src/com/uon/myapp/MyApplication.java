@@ -2,6 +2,7 @@ package com.uon.myapp;
 
 import static com.codename1.ui.CN.*;
 
+import com.codename1.io.Storage;
 import com.codename1.ui.*;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
@@ -32,6 +33,13 @@ public class MyApplication implements Serializable {
 
         // Pro only feature
         Log.bindCrashProtection(true);
+
+        Storage s = Storage.getInstance();
+        if (readObjectFromStorage("highScores") == null){
+            s.writeObject("highScores", highScores);
+        }
+
+
 
         addNetworkErrorListener(err -> {
             // prevent the event from propagating
@@ -89,9 +97,12 @@ public class MyApplication implements Serializable {
     // This integer array will store the high scores
     private int[] highScores = new int[sDifficulty.length * sMode.length];
 
+
+
     // This app will be rendered in one form. This form will be able to access a series of containers,
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
+
 
     //===============================================================
     //Reference A1: Externally sourced code
@@ -107,40 +118,59 @@ public class MyApplication implements Serializable {
     //URL 3: https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
     //Adaption required: Merged the ideas from the three methods into one method.
     //==================================================================
-    
-    public int getHighScores(int index) {
-        // This method will get the final scores for each mode
 
-        try(FileInputStream in = new FileInputStream("highScores.txt");
-        ObjectInputStream s = new ObjectInputStream(in)) {
-            highScores = (int[]) (s.readObject());
+//    public int getHighScores(int index) {
+//        // This method will get the final scores for each mode
+//
+//        try(FileInputStream in = new FileInputStream("highScores.txt");
+//        ObjectInputStream s = new ObjectInputStream(in)) {
+//            highScores = (int[]) (s.readObject());
+//
+//            in.close();
+//            s.close();
+//        } catch(Exception e){ }
+//
+//        return highScores[index];
+//    } // end getHighScores
+//
+//    public void setHighScores(int score, int index){
+//
+//        getHighScores(index);
+//
+//        highScores[index] = score;
+//
+//        try(FileOutputStream f = new FileOutputStream("highScores.txt");
+//        ObjectOutput s = new ObjectOutputStream(f)){
+//            s.writeObject(highScores);
+//
+//            s.close();
+//            f.close();
+//        }
+//
+//        catch(Exception e){
+//
+//        }
+//
+//    }
 
-            in.close();
-            s.close();
-        } catch(Exception e){ }
-
+    public int getHighScores(int index){
+        Storage s = Storage.getInstance();
+        highScores = (int[]) s.readObject("highScores");
         return highScores[index];
-    } // end getHighScores
+    }
 
-    public void setHighScores(int score, int index){
-
+    public void setHighScores(int score, int index) {
+        Storage s = Storage.getInstance();
         getHighScores(index);
 
         highScores[index] = score;
 
-        try(FileOutputStream f = new FileOutputStream("highScores.txt");
-        ObjectOutput s = new ObjectOutputStream(f)){
-            s.writeObject(highScores);
+        s.writeObject("highScores", highScores);
 
-            s.close();
-            f.close();
-        }
 
-        catch(Exception e){
-
-        }
 
     }
+
 
     //===================================================
     //End Reference A1
