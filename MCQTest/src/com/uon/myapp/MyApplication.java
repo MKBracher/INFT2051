@@ -34,6 +34,9 @@ public class MyApplication implements Serializable {
         // Pro only feature
         Log.bindCrashProtection(true);
 
+
+
+        //write a high scores file to the storage object if one doesn't already exist
         Storage s = Storage.getInstance();
         if (readObjectFromStorage("highScores") == null){
             s.writeObject("highScores", highScores);
@@ -103,55 +106,17 @@ public class MyApplication implements Serializable {
     // but the form will be able to display one container at a time.
     static Form frmMainForm;
 
+    
 
-    //===============================================================
-    //Reference A1: Externally sourced code
-    //Purpose: Serialize the highScores array and write it to a file
-    //Purpose 2: Read the highScores array from the file
-    //Date : 07 November 2020
-    //Source: Geeks for geeks && Stack Overflow
-    //Author 1:  Mehak Narang and Shubham Juneja
-    //Author 2: brabster
-    //Author 3: Willem Van Onsem
-    //URL 1: https://www.geeksforgeeks.org/serialization-in-java/
-    //URL 2: https://stackoverflow.com/questions/1467193/java-serialization-of-multidimensional-array#:~:text=Arrays%20in%20Java%20are%20serializable,example%2C%20using%20arrays%20of%20ints.
-    //URL 3: https://stackoverflow.com/questions/28570967/store-java-arrays-to-file-for-read-and-write
-    //Adaption required: Merged the ideas from the three methods into one method.
-    //==================================================================
 
-//    public int getHighScores(int index) {
-//        // This method will get the final scores for each mode
-//
-//        try(FileInputStream in = new FileInputStream("highScores.txt");
-//        ObjectInputStream s = new ObjectInputStream(in)) {
-//            highScores = (int[]) (s.readObject());
-//
-//            in.close();
-//            s.close();
-//        } catch(Exception e){ }
-//
-//        return highScores[index];
-//    } // end getHighScores
-//
-//    public void setHighScores(int score, int index){
-//
-//        getHighScores(index);
-//
-//        highScores[index] = score;
-//
-//        try(FileOutputStream f = new FileOutputStream("highScores.txt");
-//        ObjectOutput s = new ObjectOutputStream(f)){
-//            s.writeObject(highScores);
-//
-//            s.close();
-//            f.close();
-//        }
-//
-//        catch(Exception e){
-//
-//        }
-//
-//    }
+    //Reference A1: Externally Sourced Code
+    //Purpose: Writing and reading an object from the codename one storage class
+    //Date: 08 November 2020
+    //Source: Sjhannah
+    //URL: http://sjhannah.com/blog/2013/02/08/object-persistence-in-codename-one/
+    //Author: Shannah
+    //Adaption required: changed variables and inserted extra code
+
 
     public int getHighScores(int index){
         Storage s = Storage.getInstance();
@@ -167,11 +132,7 @@ public class MyApplication implements Serializable {
 
         s.writeObject("highScores", highScores);
 
-
-
     }
-
-
     //===================================================
     //End Reference A1
     //===================================================
